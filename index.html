@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>The Strange High House in the Mist</title>
 
-    <!-- ===== ПОДКЛЮЧАЕМ ШРИФТ "Caveat" (рукописный, похож на Love Letter) ===== -->
+    <!-- Подключаем рукописный шрифт Caveat (поддержка кириллицы) -->
     <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&display=swap" rel="stylesheet" />
 
     <style>
@@ -24,7 +24,6 @@
             --shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
             --radius: 12px;
             --transition: 0.25s ease;
-            /* НОВЫЙ ШРИФТ – рукописный, с кириллицей */
             --font: 'Caveat', 'Marck Script', 'Bad Script', cursive;
         }
 
@@ -42,14 +41,13 @@
             line-height: 1.6;
         }
 
-        /* ---------- ВСЕ ТЕКСТЫ ИСПОЛЬЗУЮТ ЕДИНЫЙ ШРИФТ (без фильтров) ---------- */
+        /* ---------- ВСЕ ТЕКСТЫ ---------- */
         h1, h2, h3, .site-title, .entity-card .name, .nav-menu a, .btn, .footer, .card p, .quiz-question .q {
             font-family: var(--font);
-            /* НЕТ размытия, нет лишних теней – только чистый шрифт */
             letter-spacing: 0.04em;
         }
 
-        /* ---------- ВЕРХНЕЕ МЕНЮ ---------- */
+        /* ---------- ШАПКА ---------- */
         .top-header {
             background: var(--bg-secondary);
             border-bottom: 1px solid var(--border-color);
@@ -225,39 +223,63 @@
             margin-top: 4px;
         }
 
-        /* ---------- ТЕСТ ---------- */
+        /* ---------- ТЕСТ (новый стиль) ---------- */
+        .quiz-progress {
+            font-size: 20px;
+            color: var(--text-muted);
+            margin-bottom: 16px;
+        }
         .quiz-question {
             margin-bottom: 20px;
-            padding-bottom: 16px;
-            border-bottom: 1px solid var(--border-color);
         }
         .quiz-question .q {
             font-weight: 600;
-            font-size: 20px;
-            margin-bottom: 8px;
+            font-size: 24px;
+            margin-bottom: 12px;
         }
         .quiz-options label {
             display: flex;
             align-items: center;
-            gap: 10px;
-            padding: 8px 16px;
+            gap: 12px;
+            padding: 10px 18px;
             background: var(--bg-secondary);
             border-radius: 8px;
             cursor: pointer;
             transition: all var(--transition);
-            margin-bottom: 6px;
-            border: 1px solid transparent;
-            font-size: 18px;
+            margin-bottom: 8px;
+            border: 2px solid transparent;
+            font-size: 20px;
         }
-        .quiz-options label:hover { border-color: var(--accent); }
-        .quiz-options input[type="radio"] { accent-color: var(--accent); width: 18px; height: 18px; }
-        .quiz-options label.correct { border-color: #4caf50; background: rgba(76, 175, 80, 0.12); }
-        .quiz-options label.wrong { border-color: #f44336; background: rgba(244, 67, 54, 0.12); }
-        .quiz-result {
-            margin-top: 16px;
-            font-weight: 600;
-            font-size: 22px;
+        .quiz-options label:hover {
+            border-color: var(--accent);
         }
+        .quiz-options input[type="radio"] {
+            accent-color: var(--accent);
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+        .quiz-options label.selected {
+            border-color: var(--accent);
+            background: var(--bg-hover);
+        }
+        .quiz-options label.correct {
+            border-color: #4caf50;
+            background: rgba(76, 175, 80, 0.15);
+        }
+        .quiz-options label.wrong {
+            border-color: #f44336;
+            background: rgba(244, 67, 54, 0.15);
+        }
+
+        .quiz-navigation {
+            display: flex;
+            gap: 16px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
         .btn {
             display: inline-block;
             padding: 12px 32px;
@@ -274,6 +296,40 @@
         .btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 8px 28px var(--accent-glow);
+        }
+        .btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .quiz-result-block {
+            display: none;
+            text-align: center;
+            padding: 20px 0;
+        }
+        .quiz-result-block.active {
+            display: block;
+        }
+        .quiz-result-block .score {
+            font-size: 48px;
+            font-weight: 700;
+            color: var(--accent);
+        }
+        .quiz-result-block .stars {
+            font-size: 48px;
+            letter-spacing: 6px;
+            margin: 12px 0;
+        }
+        .quiz-result-block .message {
+            font-size: 24px;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+        .quiz-result-block .detail {
+            font-size: 20px;
+            color: var(--text-muted);
         }
 
         /* ---------- ПОДВАЛ ---------- */
@@ -301,7 +357,7 @@
 
 <body>
 
-    <!-- ===== ШАПКА С МЕНЮ ===== -->
+    <!-- ===== ШАПКА ===== -->
     <header class="top-header">
         <a href="#" class="site-title" data-i18n="siteTitle" onclick="navigateTo('home'); return false;">
             The Strange High House in the Mist
@@ -383,14 +439,31 @@
             </div>
         </section>
 
-        <!-- ТЕСТ -->
+        <!-- ===== ТЕСТ (НОВАЯ ВЕРСИЯ) ===== -->
         <section id="page-quiz" class="page">
             <h1 data-i18n="quiz.title">🧠 Тест на знание</h1>
             <div class="subtitle" data-i18n="quiz.subtitle">Проверь, насколько хорошо ты изучил этот мир</div>
+
             <div class="card" id="quizContainer">
-                <div id="quizQuestions"></div>
-                <button class="btn" id="quizSubmit" data-i18n="quiz.checkBtn">Проверить ответы</button>
-                <div class="quiz-result" id="quizResult"></div>
+                <!-- Прогресс -->
+                <div class="quiz-progress" id="quizProgress"></div>
+
+                <!-- Блок с текущим вопросом -->
+                <div id="quizQuestionBlock">
+                    <div class="quiz-question" id="quizQuestion"></div>
+                    <div class="quiz-navigation">
+                        <button class="btn" id="quizNextBtn" data-i18n="quiz.nextBtn">Далее</button>
+                    </div>
+                </div>
+
+                <!-- Блок результата (скрыт изначально) -->
+                <div class="quiz-result-block" id="quizResultBlock">
+                    <div class="message" id="resultMessage"></div>
+                    <div class="score" id="resultScore"></div>
+                    <div class="stars" id="resultStars"></div>
+                    <div class="detail" id="resultDetail"></div>
+                    <button class="btn" id="quizRestartBtn" style="margin-top:20px;" data-i18n="quiz.restartBtn">Пройти заново</button>
+                </div>
             </div>
         </section>
 
@@ -404,19 +477,17 @@
         </span>
     </footer>
 
-    <!-- ===== СКРЫТЫЙ АУДИОПЛЕЕР ===== -->
+    <!-- ===== СКРЫТЫЙ АУДИО ===== -->
     <audio id="bg-audio" loop>
         <source src="assets/background-music.mp3" type="audio/mpeg">
     </audio>
 
-    <!-- ===== JAVASCRIPT (полностью рабочий) ===== -->
+    <!-- ===== JAVASCRIPT ===== -->
     <script>
         (function() {
             'use strict';
 
-            // ---------- ЛОКАЛИЗАЦИЯ (полный объект, как в предыдущих версиях) ----------
-            // Для краткости я привожу только структуру, но вы можете скопировать полный объект
-            // из моего предыдущего ответа. Вот он:
+            // ---------- ЛОКАЛИЗАЦИЯ (добавлены ключи для теста) ----------
             const translations = {
                 ru: {
                     siteTitle: 'Странный высокий дом в тумане',
@@ -471,7 +542,18 @@
                     quiz: {
                         title: '🧠 Тест на знание',
                         subtitle: 'Проверь, насколько хорошо ты изучил этот мир',
-                        checkBtn: 'Проверить ответы',
+                        nextBtn: 'Далее',
+                        restartBtn: 'Пройти заново',
+                        progress: 'Вопрос {current} из {total}',
+                        resultTitle: 'Результат',
+                        correctAnswers: 'Правильных ответов: {correct} из {total}',
+                        ratingStars: 'Рейтинг: {stars} звёзд',
+                        messages: {
+                            high: '🏆 Ты — истинный Хранитель тумана!',
+                            mid: '🌟 Хороший результат! Ты глубоко погрузился в мир.',
+                            low: '📖 Неплохо, но стоит перечитать разделы.',
+                            fail: '📚 Похоже, туман скрыл от тебя много тайн. Загляни в карту и описания.'
+                        },
                         question1: 'Как называется высокий дом на утёсе?',
                         question2: 'Кто является Хранителем знаний?',
                         question3: 'Какое существо охраняет вход в Дом?',
@@ -497,13 +579,7 @@
                         option5_2: 'Неизвестный автор',
                         option5_3: 'Изольда Златогривая',
                         option5_4: 'Орлан Тёмный',
-                        correctAnswers: [0, 0, 0, 0, 0],
-                        resultMessages: {
-                            high: '🏆 Ты — истинный Хранитель тумана!',
-                            mid: '🌟 Хороший результат! Ты глубоко погрузился в мир.',
-                            low: '📖 Неплохо, но стоит перечитать разделы.',
-                            fail: '📚 Похоже, туман скрыл от тебя много тайн. Загляни в карту и описания.'
-                        }
+                        correctAnswers: [0, 0, 0, 0, 0]
                     },
                     footer: {
                         text: '© 2026 The Strange High House in the Mist · Все права защищены.',
@@ -563,7 +639,18 @@
                     quiz: {
                         title: '🧠 Quiz',
                         subtitle: 'Test how well you know this world',
-                        checkBtn: 'Check answers',
+                        nextBtn: 'Next',
+                        restartBtn: 'Restart',
+                        progress: 'Question {current} of {total}',
+                        resultTitle: 'Result',
+                        correctAnswers: 'Correct answers: {correct} out of {total}',
+                        ratingStars: 'Rating: {stars} stars',
+                        messages: {
+                            high: '🏆 You are a true Keeper of the Mist!',
+                            mid: '🌟 Good result! You are deeply immersed in the world.',
+                            low: '📖 Not bad, but you should re-read the sections.',
+                            fail: '📚 It seems the mist has hidden many secrets from you. Check the map and descriptions.'
+                        },
                         question1: 'What is the name of the high house on the cliff?',
                         question2: 'Who is the Keeper of knowledge?',
                         question3: 'Which creature guards the entrance to the House?',
@@ -589,13 +676,7 @@
                         option5_2: 'Unknown author',
                         option5_3: 'Isolde Goldenmane',
                         option5_4: 'Orlan the Dark',
-                        correctAnswers: [0, 0, 0, 0, 0],
-                        resultMessages: {
-                            high: '🏆 You are a true Keeper of the Mist!',
-                            mid: '🌟 Good result! You are deeply immersed in the world.',
-                            low: '📖 Not bad, but you should re-read the sections.',
-                            fail: '📚 It seems the mist has hidden many secrets from you. Check the map and descriptions.'
-                        }
+                        correctAnswers: [0, 0, 0, 0, 0]
                     },
                     footer: {
                         text: '© 2026 The Strange High House in the Mist · All rights reserved.',
@@ -619,7 +700,10 @@
                     if (value !== undefined) el.textContent = value;
                 });
                 document.title = getTranslation(lang, 'siteTitle');
-                renderQuiz();
+                // Перерисовываем тест, если он активен
+                if (document.getElementById('page-quiz').classList.contains('active')) {
+                    initQuiz();
+                }
                 try { localStorage.setItem('preferredLang', lang); } catch (e) {}
             };
 
@@ -649,32 +733,161 @@
                     link.classList.toggle('active', link.dataset.page === pageId);
                 });
                 if (history.pushState) history.pushState({ page: pageId }, '', '#' + pageId);
+                // Если перешли на страницу теста – инициализируем его
+                if (pageId === 'quiz') {
+                    initQuiz();
+                }
             };
 
-            function renderQuiz() {
-                const container = document.getElementById('quizQuestions');
-                if (!container) return;
+            // ---------- ЛОГИКА ТЕСТА (пошаговый) ----------
+            let quizState = {
+                currentIndex: 0,
+                answers: [], // массив boolean (правильно/неправильно)
+                questions: [],
+                total: 0
+            };
+
+            function buildQuestions() {
                 const lang = currentLanguage;
                 const t = translations[lang].quiz;
-                const questions = [
+                return [
                     { q: t.question1, options: [t.option1_1, t.option1_2, t.option1_3, t.option1_4], correct: t.correctAnswers[0] },
                     { q: t.question2, options: [t.option2_1, t.option2_2, t.option2_3, t.option2_4], correct: t.correctAnswers[1] },
                     { q: t.question3, options: [t.option3_1, t.option3_2, t.option3_3, t.option3_4], correct: t.correctAnswers[2] },
                     { q: t.question4, options: [t.option4_1, t.option4_2, t.option4_3, t.option4_4], correct: t.correctAnswers[3] },
                     { q: t.question5, options: [t.option5_1, t.option5_2, t.option5_3, t.option5_4], correct: t.correctAnswers[4] }
                 ];
-                let html = '';
-                questions.forEach((q, idx) => {
-                    html += `<div class="quiz-question" data-q="${idx}">
-                                <div class="q">${idx+1}. ${q.q}</div>
-                                <div class="quiz-options">`;
-                    q.options.forEach((opt, oi) => {
-                        html += `<label><input type="radio" name="q${idx}" value="${oi}">${opt}</label>`;
-                    });
-                    html += `</div></div>`;
+            }
+
+            function initQuiz() {
+                const lang = currentLanguage;
+                const t = translations[lang].quiz;
+                quizState.questions = buildQuestions();
+                quizState.total = quizState.questions.length;
+                quizState.currentIndex = 0;
+                quizState.answers = [];
+
+                // Показать блок вопроса, скрыть результат
+                document.getElementById('quizQuestionBlock').style.display = 'block';
+                document.getElementById('quizResultBlock').classList.remove('active');
+
+                // Включить кнопку "Далее"
+                document.getElementById('quizNextBtn').disabled = false;
+
+                renderQuestion();
+            }
+
+            function renderQuestion() {
+                const lang = currentLanguage;
+                const t = translations[lang].quiz;
+                const idx = quizState.currentIndex;
+                const total = quizState.total;
+                const question = quizState.questions[idx];
+
+                // Прогресс
+                document.getElementById('quizProgress').textContent = t.progress.replace('{current}', idx+1).replace('{total}', total);
+
+                // Вопрос и варианты
+                const container = document.getElementById('quizQuestion');
+                let html = `<div class="q">${idx+1}. ${question.q}</div>
+                            <div class="quiz-options">`;
+                question.options.forEach((opt, oi) => {
+                    html += `<label>
+                                <input type="radio" name="quiz_option" value="${oi}">
+                                ${opt}
+                            </label>`;
                 });
+                html += `</div>`;
                 container.innerHTML = html;
-                document.getElementById('quizResult').innerHTML = '';
+
+                // Сбросить выделение
+                document.querySelectorAll('.quiz-options label').forEach(l => l.classList.remove('selected', 'correct', 'wrong'));
+
+                // Убрать событие с радиокнопок, добавить новое
+                const radios = document.querySelectorAll('input[name="quiz_option"]');
+                radios.forEach(radio => {
+                    radio.addEventListener('change', function() {
+                        // Снять выделение со всех label
+                        document.querySelectorAll('.quiz-options label').forEach(l => l.classList.remove('selected'));
+                        // Выделить выбранный
+                        this.closest('label').classList.add('selected');
+                        // Разблокировать кнопку "Далее"
+                        document.getElementById('quizNextBtn').disabled = false;
+                    });
+                });
+
+                // Кнопка "Далее" – снова активна, если не выбран ответ, но мы блокируем при рендере
+                document.getElementById('quizNextBtn').disabled = true;
+                // Если уже есть выбранный ответ (при перерисовке) – не блокируем, но у нас нет сохранённого выбора, поэтому оставляем заблокированной до выбора.
+            }
+
+            function goToNextQuestion() {
+                // Проверить, выбран ли ответ
+                const selected = document.querySelector('input[name="quiz_option"]:checked');
+                if (!selected) {
+                    // Не должно случиться, т.к. кнопка disabled пока не выбран
+                    return;
+                }
+                const answerIndex = parseInt(selected.value);
+                const question = quizState.questions[quizState.currentIndex];
+                const isCorrect = (answerIndex === question.correct);
+                quizState.answers.push(isCorrect);
+
+                // Отобразить правильно/неправильно на вариантах (для обратной связи)
+                const labels = document.querySelectorAll('.quiz-options label');
+                labels.forEach((label, i) => {
+                    if (i === question.correct) label.classList.add('correct');
+                    if (i === answerIndex && !isCorrect) label.classList.add('wrong');
+                });
+
+                // Блокируем кнопку, пока не перейдём дальше
+                document.getElementById('quizNextBtn').disabled = true;
+
+                // Переход к следующему вопросу или к результату через небольшую задержку
+                setTimeout(() => {
+                    if (quizState.currentIndex + 1 < quizState.total) {
+                        quizState.currentIndex++;
+                        renderQuestion();
+                    } else {
+                        // Показать результат
+                        showResult();
+                    }
+                }, 600); // даём время увидеть подсветку
+            }
+
+            function showResult() {
+                const lang = currentLanguage;
+                const t = translations[lang].quiz;
+                const correctCount = quizState.answers.filter(a => a === true).length;
+                const total = quizState.total;
+                const percent = Math.round((correctCount / total) * 100);
+
+                // Определяем сообщение
+                let msgKey;
+                if (percent >= 90) msgKey = 'high';
+                else if (percent >= 70) msgKey = 'mid';
+                else if (percent >= 50) msgKey = 'low';
+                else msgKey = 'fail';
+                const message = t.messages[msgKey];
+
+                // Звёзды (рейтинг)
+                let starsCount = 0;
+                if (percent >= 90) starsCount = 5;
+                else if (percent >= 70) starsCount = 4;
+                else if (percent >= 50) starsCount = 3;
+                else if (percent >= 30) starsCount = 2;
+                else starsCount = 1;
+                const stars = '★'.repeat(starsCount) + '☆'.repeat(5 - starsCount);
+
+                // Заполняем блок результата
+                document.getElementById('resultMessage').textContent = message;
+                document.getElementById('resultScore').textContent = t.correctAnswers.replace('{correct}', correctCount).replace('{total}', total);
+                document.getElementById('resultStars').textContent = stars;
+                document.getElementById('resultDetail').textContent = t.ratingStars.replace('{stars}', starsCount);
+
+                // Скрываем вопрос, показываем результат
+                document.getElementById('quizQuestionBlock').style.display = 'none';
+                document.getElementById('quizResultBlock').classList.add('active');
             }
 
             // ---------- ИНИЦИАЛИЗАЦИЯ ----------
@@ -682,15 +895,19 @@
                 const saved = localStorage.getItem('preferredLang');
                 if (saved && translations[saved]) currentLanguage = saved;
             } catch (e) {}
+
             window.setLanguage(currentLanguage);
 
             // ---------- ОБРАБОТЧИКИ ----------
+            // Переключение языка
             document.querySelectorAll('.lang-switch button').forEach(btn => {
                 btn.addEventListener('click', function() {
                     const lang = this.dataset.lang;
                     if (lang) window.setLanguage(lang);
                 });
             });
+
+            // Навигация
             document.querySelectorAll('.nav-menu a').forEach(link => {
                 link.addEventListener('click', function(e) {
                     e.preventDefault();
@@ -698,6 +915,7 @@
                     if (pageId) window.navigateTo(pageId);
                 });
             });
+
             window.addEventListener('hashchange', function() {
                 const hash = location.hash.replace('#', '');
                 if (hash) window.navigateTo(hash);
@@ -707,45 +925,12 @@
                 if (hash) window.navigateTo(hash);
             } else { window.navigateTo('home'); }
 
-            document.getElementById('quizSubmit').addEventListener('click', function() {
-                const lang = currentLanguage;
-                const t = translations[lang].quiz;
-                const correctAnswers = t.correctAnswers;
-                const questions = document.querySelectorAll('.quiz-question');
-                let correctCount = 0;
-                let allAnswered = true;
-                questions.forEach((q, idx) => {
-                    const selected = q.querySelector('input:checked');
-                    const labels = q.querySelectorAll('label');
-                    labels.forEach(l => l.classList.remove('correct', 'wrong'));
-                    if (selected) {
-                        const val = parseInt(selected.value);
-                        if (val === correctAnswers[idx]) {
-                            correctCount++;
-                            labels.forEach((l, i) => { if (i === correctAnswers[idx]) l.classList.add('correct'); });
-                        } else {
-                            labels.forEach((l, i) => {
-                                if (i === correctAnswers[idx]) l.classList.add('correct');
-                                if (i === val) l.classList.add('wrong');
-                            });
-                        }
-                    } else { allAnswered = false; }
-                });
-                const resultDiv = document.getElementById('quizResult');
-                if (!allAnswered) {
-                    resultDiv.textContent = '⚠️ ' + (lang === 'ru' ? 'Ответь на все вопросы!' : 'Answer all questions!');
-                    resultDiv.style.color = '#f5b342';
-                    return;
-                }
-                const total = questions.length;
-                const percent = Math.round((correctCount / total) * 100);
-                let msg;
-                if (percent >= 90) msg = t.resultMessages.high;
-                else if (percent >= 70) msg = t.resultMessages.mid;
-                else if (percent >= 50) msg = t.resultMessages.low;
-                else msg = t.resultMessages.fail;
-                resultDiv.innerHTML = `${msg} (${correctCount}/${total})`;
-                resultDiv.style.color = 'var(--text-primary)';
+            // Кнопка "Далее" – переход к следующему вопросу
+            document.getElementById('quizNextBtn').addEventListener('click', goToNextQuestion);
+
+            // Кнопка "Пройти заново"
+            document.getElementById('quizRestartBtn').addEventListener('click', function() {
+                initQuiz();
             });
 
             // ---------- ФОНОВАЯ МУЗЫКА ----------
@@ -768,7 +953,8 @@
             }
 
             console.log('🔮 The Strange High House in the Mist загружен. Язык: ' + currentLanguage);
-            console.log('✍️ Используется шрифт Caveat (рукописный, с кириллицей)');
+            console.log('✍️ Шрифт: Caveat (рукописный)');
+            console.log('📝 Тест теперь пошаговый, результат отображается с рейтингом.');
         })();
     </script>
 
