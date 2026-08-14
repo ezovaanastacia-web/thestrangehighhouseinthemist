@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>The Strange High House in the Mist</title>
 
-    <!-- ============================================================
-         CSS – все стили (можно вынести в отдельный файл)
-         ============================================================ -->
+    <!-- ===== ПОДКЛЮЧАЕМ ШРИФТ "Cutive Mono" (печатная машинка) ===== -->
+    <link href="https://fonts.googleapis.com/css2?family=Cutive+Mono&display=swap" rel="stylesheet" />
+
     <style>
-        /* ---------- 1. ПЕРЕМЕННЫЕ ---------- */
+        /* ---------- 1. ПЕРЕМЕННЫЕ (шрифт изменён) ---------- */
         :root {
             --bg-primary: #0b0b12;
             --bg-secondary: #181825;
@@ -24,7 +24,8 @@
             --shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
             --radius: 12px;
             --transition: 0.25s ease;
-            --font: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            /* НОВЫЙ ШРИФТ — ПЕЧАТНАЯ МАШИНКА */
+            --font: 'Cutive Mono', 'Courier New', Courier, monospace;
         }
 
         /* ---------- 2. БАЗА ---------- */
@@ -45,6 +46,8 @@
             flex-direction: column;
             transition: background var(--transition), color var(--transition);
             line-height: 1.6;
+            /* дополнительный эффект печатной машинки — лёгкое увеличение межбуквенного интервала */
+            letter-spacing: 0.03em;
         }
 
         /* ---------- 3. ВЕРХНЕЕ МЕНЮ ---------- */
@@ -65,10 +68,11 @@
         .site-title {
             font-size: 22px;
             font-weight: 700;
-            letter-spacing: -0.3px;
+            letter-spacing: 0.05em;
             color: var(--accent);
             text-decoration: none;
             padding: 12px 0;
+            font-family: var(--font);
         }
         .site-title small {
             font-weight: 400;
@@ -94,6 +98,7 @@
             cursor: pointer;
             border: none;
             background: transparent;
+            font-family: var(--font);
         }
         .nav-menu a:hover {
             background: var(--bg-hover);
@@ -123,6 +128,7 @@
             font-size: 13px;
             cursor: pointer;
             transition: all var(--transition);
+            font-family: var(--font);
         }
         .lang-switch button.active {
             background: var(--accent);
@@ -141,7 +147,7 @@
             width: 100%;
         }
 
-        /* ---------- 5. СТРАНИЦЫ (секции) ---------- */
+        /* ---------- 5. СТРАНИЦЫ ---------- */
         .page {
             display: none;
             animation: fadeUp 0.4s ease;
@@ -158,7 +164,8 @@
             font-size: 30px;
             font-weight: 700;
             margin-bottom: 6px;
-            letter-spacing: -0.4px;
+            letter-spacing: 0.04em;
+            font-family: var(--font);
         }
         .page .subtitle {
             color: var(--text-secondary);
@@ -166,6 +173,7 @@
             margin-bottom: 28px;
             border-left: 3px solid var(--accent);
             padding-left: 16px;
+            font-family: var(--font);
         }
 
         /* ---------- 6. КАРТОЧКИ ---------- */
@@ -185,9 +193,11 @@
             display: flex;
             align-items: center;
             gap: 10px;
+            font-family: var(--font);
         }
         .card p, .card li {
             color: var(--text-secondary);
+            font-family: var(--font);
         }
 
         .grid-2 {
@@ -227,11 +237,13 @@
             display: flex;
             align-items: center;
             gap: 8px;
+            font-family: var(--font);
         }
         .entity-card .desc {
             color: var(--text-muted);
             font-size: 14px;
             margin-top: 4px;
+            font-family: var(--font);
         }
 
         /* ---------- 8. ТЕСТ ---------- */
@@ -243,6 +255,7 @@
         .quiz-question .q {
             font-weight: 600;
             margin-bottom: 8px;
+            font-family: var(--font);
         }
         .quiz-options label {
             display: flex;
@@ -255,6 +268,7 @@
             transition: all var(--transition);
             margin-bottom: 4px;
             border: 1px solid transparent;
+            font-family: var(--font);
         }
         .quiz-options label:hover {
             border-color: var(--accent);
@@ -276,6 +290,7 @@
             margin-top: 16px;
             font-weight: 600;
             font-size: 18px;
+            font-family: var(--font);
         }
         .btn {
             display: inline-block;
@@ -289,6 +304,7 @@
             cursor: pointer;
             transition: all var(--transition);
             box-shadow: 0 4px 16px var(--accent-glow);
+            font-family: var(--font);
         }
         .btn:hover {
             transform: translateY(-2px);
@@ -304,10 +320,12 @@
             font-size: 14px;
             color: var(--text-muted);
             margin-top: 30px;
+            font-family: var(--font);
         }
         .footer a {
             color: var(--accent);
             text-decoration: none;
+            font-family: var(--font);
         }
         .footer a:hover {
             text-decoration: underline;
@@ -319,6 +337,12 @@
         }
         .mt-8 { margin-top: 8px; }
         .text-muted { color: var(--text-muted); }
+
+        /* дополнительный штрих — курсор в стиле печатной машинки (опционально) */
+        ::selection {
+            background: var(--accent);
+            color: #0b0b12;
+        }
     </style>
 </head>
 
@@ -507,13 +531,13 @@
     </audio>
 
     <!-- ============================================================
-    ИСПРАВЛЕННЫЙ JAVASCRIPT – с глобальными функциями и обработчиками
+    JAVASCRIPT – полностью рабочий, с переключением языка и навигацией
     ============================================================ -->
     <script>
         (function() {
             'use strict';
 
-            // ---------- 1. ЛОКАЛИЗАЦИЯ (ПОЛНЫЕ ОБЪЕКТЫ) ----------
+            // ---------- 1. ЛОКАЛИЗАЦИЯ ----------
             const translations = {
                 ru: {
                     siteTitle: 'Странный высокий дом в тумане',
@@ -708,12 +732,10 @@
                 if (!translations[lang]) return;
                 currentLanguage = lang;
 
-                // Кнопки
                 document.querySelectorAll('.lang-switch button').forEach(btn => {
                     btn.classList.toggle('active', btn.dataset.lang === lang);
                 });
 
-                // Все элементы с data-i18n
                 document.querySelectorAll('[data-i18n]').forEach(el => {
                     const key = el.dataset.i18n;
                     const value = getTranslation(lang, key);
@@ -722,13 +744,8 @@
                     }
                 });
 
-                // Заголовок страницы
                 document.title = getTranslation(lang, 'siteTitle');
-
-                // Перерисовать тест
                 renderQuiz();
-
-                // Сохранить язык
                 try { localStorage.setItem('preferredLang', lang); } catch (e) {}
             };
 
@@ -742,7 +759,7 @@
                 return obj;
             }
 
-            // ---------- 3. ГЛОБАЛЬНАЯ НАВИГАЦИЯ ----------
+            // ---------- 3. НАВИГАЦИЯ ----------
             window.navigateTo = function(pageId) {
                 const pages = {
                     home: document.getElementById('page-home'),
@@ -797,12 +814,10 @@
                     html += `</div></div>`;
                 });
                 container.innerHTML = html;
-                const resultDiv = document.getElementById('quizResult');
-                if (resultDiv) resultDiv.innerHTML = '';
+                document.getElementById('quizResult').innerHTML = '';
             }
 
             // ---------- 5. ИНИЦИАЛИЗАЦИЯ ----------
-            // Восстановить язык
             try {
                 const saved = localStorage.getItem('preferredLang');
                 if (saved && translations[saved]) {
@@ -810,11 +825,9 @@
                 }
             } catch (e) {}
 
-            // Применить язык
             window.setLanguage(currentLanguage);
 
-            // ---------- 6. ОБРАБОТЧИКИ СОБЫТИЙ (вместо onclick) ----------
-            // Кнопки языка
+            // ---------- 6. ОБРАБОТЧИКИ ----------
             document.querySelectorAll('.lang-switch button').forEach(btn => {
                 btn.addEventListener('click', function() {
                     const lang = this.dataset.lang;
@@ -822,7 +835,6 @@
                 });
             });
 
-            // Ссылки навигации
             document.querySelectorAll('.nav-menu a').forEach(link => {
                 link.addEventListener('click', function(e) {
                     e.preventDefault();
@@ -831,7 +843,6 @@
                 });
             });
 
-            // Хэш-навигация
             window.addEventListener('hashchange', function() {
                 const hash = location.hash.replace('#', '');
                 if (hash) window.navigateTo(hash);
@@ -843,7 +854,6 @@
                 window.navigateTo('home');
             }
 
-            // Кнопка проверки теста
             document.getElementById('quizSubmit').addEventListener('click', function() {
                 const lang = currentLanguage;
                 const t = translations[lang].quiz;
@@ -914,6 +924,7 @@
             }
 
             console.log('🔮 The Strange High House in the Mist загружен. Язык: ' + currentLanguage);
+            console.log('🖨️ Шрифт изменён на печатную машинку (Cutive Mono)');
         })();
     </script>
 
