@@ -3,187 +3,163 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Лор · Архив</title>
+    <title>The Strange High House in the Mist</title>
 
     <!-- ============================================================
-    CSS — все стили в одном файле, с переменными для быстрой смены темы
-    ============================================================ -->
+         CSS – все стили в одном файле, с возможностью вынести в отдельный .css
+         ============================================================ -->
     <style>
-        /* -------- 1. ПЕРЕМЕННЫЕ (измени их — и дизайн поменяется) -------- */
+        /* ---------- 1. ПЕРЕМЕННЫЕ (дизайн легко менять) ---------- */
         :root {
-            --bg-primary: #1e1e2f;
-            --bg-secondary: #2a2a3e;
-            --bg-card: #2f2f45;
-            --bg-sidebar: #161621;
-            --text-primary: #e8e8f0;
-            --text-secondary: #a8a8c0;
-            --text-muted: #7878a0;
-            --accent: #7c6df0;
-            --accent-hover: #9a8cf5;
-            --accent-glow: rgba(124, 109, 240, 0.25);
-            --border-color: #3a3a55;
-            --shadow: 0 8px 32px rgba(0, 0, 0, 0.45);
-            --radius: 14px;
-            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --bg-primary: #0b0b12;
+            --bg-secondary: #181825;
+            --bg-card: #1e1e32;
+            --bg-hover: #2a2a44;
+            --text-primary: #e0e0ee;
+            --text-secondary: #a8a8c8;
+            --text-muted: #6a6a8a;
+            --accent: #b8a5ff;
+            --accent-glow: rgba(184, 165, 255, 0.15);
+            --border-color: #2e2e4a;
+            --shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
+            --radius: 12px;
+            --transition: 0.25s ease;
             --font: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            --sidebar-width: 260px;
         }
 
-        /* -------- 2. СБРОС И БАЗА -------- */
-        *,
-        *::before,
-        *::after {
-            box-sizing: border-box;
+        /* ---------- 2. БАЗА ---------- */
+        * {
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
         }
-
         html {
             scroll-behavior: smooth;
         }
-
         body {
             font-family: var(--font);
             background: var(--bg-primary);
             color: var(--text-primary);
-            display: flex;
             min-height: 100vh;
+            display: flex;
+            flex-direction: column;
             transition: background var(--transition), color var(--transition);
             line-height: 1.6;
         }
 
-        /* -------- 3. САЙДБАР (навигация) -------- */
-        .sidebar {
-            width: var(--sidebar-width);
-            background: var(--bg-sidebar);
-            border-right: 1px solid var(--border-color);
-            padding: 28px 18px;
+        /* ---------- 3. ВЕРХНЕЕ МЕНЮ ---------- */
+        .top-header {
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-color);
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            min-height: 70px;
             position: sticky;
             top: 0;
-            height: 100vh;
-            overflow-y: auto;
-            flex-shrink: 0;
-            display: flex;
-            flex-direction: column;
-            transition: background var(--transition), border var(--transition);
             z-index: 100;
+            backdrop-filter: blur(4px);
         }
-
-        .sidebar::-webkit-scrollbar {
-            width: 4px;
-        }
-        .sidebar::-webkit-scrollbar-track {
-            background: transparent;
-        }
-        .sidebar::-webkit-scrollbar-thumb {
-            background: var(--accent);
-            border-radius: 4px;
-        }
-
-        .sidebar-brand {
+        .site-title {
             font-size: 22px;
             font-weight: 700;
-            letter-spacing: -0.5px;
-            padding-bottom: 24px;
-            margin-bottom: 24px;
-            border-bottom: 1px solid var(--border-color);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .sidebar-brand span {
+            letter-spacing: -0.3px;
             color: var(--accent);
+            text-decoration: none;
+            padding: 12px 0;
+        }
+        .site-title small {
+            font-weight: 400;
+            color: var(--text-muted);
+            font-size: 14px;
+            margin-left: 8px;
         }
 
-        .sidebar-nav {
+        .nav-menu {
             display: flex;
-            flex-direction: column;
-            gap: 4px;
-            flex: 1;
-        }
-
-        .sidebar-nav a {
-            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
             align-items: center;
-            gap: 12px;
-            padding: 10px 14px;
-            border-radius: 10px;
+        }
+        .nav-menu a {
             color: var(--text-secondary);
             text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 30px;
             font-size: 15px;
             font-weight: 500;
             transition: all var(--transition);
             cursor: pointer;
             border: none;
             background: transparent;
-            width: 100%;
-            text-align: left;
+        }
+        .nav-menu a:hover {
+            background: var(--bg-hover);
+            color: var(--text-primary);
+        }
+        .nav-menu a.active {
+            background: var(--accent);
+            color: #0b0b12;
+            box-shadow: 0 0 20px var(--accent-glow);
         }
 
-        .sidebar-nav a:hover {
-            background: var(--bg-secondary);
+        .lang-switch {
+            display: flex;
+            gap: 4px;
+            background: var(--bg-primary);
+            border-radius: 30px;
+            padding: 4px;
+            border: 1px solid var(--border-color);
+        }
+        .lang-switch button {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            padding: 6px 14px;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all var(--transition);
+        }
+        .lang-switch button.active {
+            background: var(--accent);
+            color: #0b0b12;
+        }
+        .lang-switch button:hover:not(.active) {
             color: var(--text-primary);
         }
 
-        .sidebar-nav a.active {
-            background: var(--accent);
-            color: #fff;
-            box-shadow: 0 4px 16px var(--accent-glow);
-        }
-
-        .sidebar-nav a .icon {
-            font-size: 18px;
-            width: 28px;
-            text-align: center;
-            flex-shrink: 0;
-        }
-
-        .sidebar-footer {
-            margin-top: auto;
-            padding-top: 20px;
-            border-top: 1px solid var(--border-color);
-            font-size: 13px;
-            color: var(--text-muted);
-        }
-
-        /* -------- 4. ОСНОВНОЙ КОНТЕНТ -------- */
+        /* ---------- 4. ОСНОВНОЙ КОНТЕНТ ---------- */
         .main {
             flex: 1;
-            padding: 32px 40px 60px;
-            max-width: 1000px;
+            padding: 30px 40px 20px;
+            max-width: 1200px;
             margin: 0 auto;
             width: 100%;
-            transition: padding var(--transition);
         }
 
-        /* -------- 5. СТРАНИЦЫ (секции) -------- */
+        /* ---------- 5. СТРАНИЦЫ (секции) ---------- */
         .page {
             display: none;
             animation: fadeUp 0.4s ease;
         }
-
         .page.active {
             display: block;
         }
-
         @keyframes fadeUp {
-            0% {
-                opacity: 0;
-                transform: translateY(18px);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            0% { opacity: 0; transform: translateY(16px); }
+            100% { opacity: 1; transform: translateY(0); }
         }
 
         .page h1 {
-            font-size: 32px;
+            font-size: 30px;
             font-weight: 700;
-            margin-bottom: 8px;
-            letter-spacing: -0.5px;
+            margin-bottom: 6px;
+            letter-spacing: -0.4px;
         }
-
         .page .subtitle {
             color: var(--text-secondary);
             font-size: 16px;
@@ -192,17 +168,16 @@
             padding-left: 16px;
         }
 
-        /* -------- 6. КАРТОЧКИ И КОМПОНЕНТЫ -------- */
+        /* ---------- 6. КАРТОЧКИ ---------- */
         .card {
             background: var(--bg-card);
             border-radius: var(--radius);
             padding: 24px 28px;
             margin-bottom: 24px;
             border: 1px solid var(--border-color);
-            transition: background var(--transition), border var(--transition);
             box-shadow: var(--shadow);
+            transition: background var(--transition), border var(--transition);
         }
-
         .card h2 {
             font-size: 20px;
             font-weight: 600;
@@ -211,307 +186,102 @@
             align-items: center;
             gap: 10px;
         }
-
-        .card h2 .badge {
-            font-size: 13px;
-            font-weight: 500;
-            background: var(--accent);
-            color: #fff;
-            padding: 0 12px;
-            border-radius: 20px;
-            line-height: 26px;
-        }
-
-        .card p,
-        .card li {
+        .card p, .card li {
             color: var(--text-secondary);
         }
 
         .grid-2 {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: repeat(2, 1fr);
             gap: 20px;
         }
-
         .grid-3 {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 20px;
         }
+        @media (max-width: 720px) {
+            .grid-2, .grid-3 { grid-template-columns: 1fr; }
+            .top-header { padding: 12px 16px; flex-direction: column; align-items: stretch; }
+            .nav-menu { justify-content: center; margin: 8px 0; }
+            .lang-switch { align-self: flex-end; }
+            .main { padding: 20px 16px; }
+        }
 
-        /* -------- 7. ПЕРСОНАЖИ -------- */
-        .character-card {
+        /* ---------- 7. ЭЛЕМЕНТЫ ДЛЯ ПЕРСОНАЖЕЙ, СУЩЕСТВ ---------- */
+        .entity-card {
             background: var(--bg-secondary);
             border-radius: var(--radius);
-            padding: 18px 20px;
+            padding: 16px 20px;
             border: 1px solid var(--border-color);
             transition: all var(--transition);
         }
-
-        .character-card:hover {
+        .entity-card:hover {
             border-color: var(--accent);
             transform: translateY(-2px);
             box-shadow: 0 6px 24px var(--accent-glow);
         }
-
-        .character-card .name {
+        .entity-card .name {
             font-weight: 600;
             font-size: 17px;
             display: flex;
             align-items: center;
             gap: 8px;
         }
-
-        .character-card .name .emoji {
-            font-size: 20px;
-        }
-
-        .character-card .role {
+        .entity-card .desc {
             color: var(--text-muted);
             font-size: 14px;
-            margin: 4px 0 8px;
+            margin-top: 4px;
         }
 
-        .character-card .tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-            margin-top: 8px;
-        }
-
-        .character-card .tags span {
-            background: var(--bg-primary);
-            padding: 2px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            color: var(--text-secondary);
-            border: 1px solid var(--border-color);
-        }
-
-        /* -------- 8. СВЯЗИ (граф) -------- */
-        .connection-node {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            padding: 12px 16px;
-            background: var(--bg-secondary);
-            border-radius: var(--radius);
-            border-left: 4px solid var(--accent);
-            margin-bottom: 10px;
-        }
-
-        .connection-node .from {
-            font-weight: 600;
-        }
-
-        .connection-node .arrow {
-            color: var(--accent);
-            font-size: 20px;
-        }
-
-        .connection-node .to {
-            color: var(--text-secondary);
-        }
-
-        .connection-node .relation {
-            margin-left: auto;
-            font-size: 13px;
-            color: var(--text-muted);
-            background: var(--bg-primary);
-            padding: 2px 14px;
-            border-radius: 20px;
-        }
-
-        /* -------- 9. КАРТА ЛОРА -------- */
-        .lore-map {
-            background: var(--bg-secondary);
-            border-radius: var(--radius);
-            padding: 24px;
-            border: 1px solid var(--border-color);
-            min-height: 200px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            color: var(--text-muted);
-            font-size: 15px;
-            gap: 12px;
-        }
-
-        .lore-map .region-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            justify-content: center;
-            margin-top: 8px;
-        }
-
-        .lore-map .region-list span {
-            background: var(--bg-card);
-            padding: 6px 20px;
-            border-radius: 30px;
-            border: 1px solid var(--border-color);
-            color: var(--text-secondary);
-            font-size: 14px;
-        }
-
-        /* -------- 10. МУЗЫКА -------- */
-        .track {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            padding: 12px 16px;
-            background: var(--bg-secondary);
-            border-radius: var(--radius);
-            border: 1px solid var(--border-color);
-            margin-bottom: 10px;
-            transition: all var(--transition);
-        }
-
-        .track:hover {
-            border-color: var(--accent);
-        }
-
-        .track .play {
-            font-size: 22px;
-            cursor: pointer;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            background: var(--accent);
-            color: #fff;
-            transition: all var(--transition);
-            border: none;
-        }
-
-        .track .play:hover {
-            background: var(--accent-hover);
-            transform: scale(1.06);
-        }
-
-        .track .info {
-            flex: 1;
-        }
-
-        .track .info .title {
-            font-weight: 500;
-        }
-
-        .track .info .artist {
-            font-size: 14px;
-            color: var(--text-muted);
-        }
-
-        .track .duration {
-            color: var(--text-muted);
-            font-size: 14px;
-        }
-
-        /* -------- 11. РЕЙТИНГ -------- */
-        .rating-stars {
-            display: flex;
-            gap: 6px;
-            font-size: 32px;
-            cursor: pointer;
-            margin: 8px 0 12px;
-        }
-
-        .rating-stars span {
-            transition: all var(--transition);
-            color: var(--text-muted);
-            user-select: none;
-        }
-
-        .rating-stars span.active {
-            color: #f5b342;
-            text-shadow: 0 0 20px rgba(245, 179, 66, 0.3);
-        }
-
-        .rating-stars span:hover {
-            transform: scale(1.15);
-        }
-
-        .rating-display {
-            font-size: 18px;
-            font-weight: 600;
-        }
-
-        .rating-display small {
-            font-weight: 400;
-            color: var(--text-muted);
-            font-size: 15px;
-        }
-
-        /* -------- 12. ТЕСТ -------- */
+        /* ---------- 8. ТЕСТ ---------- */
         .quiz-question {
             margin-bottom: 20px;
             padding-bottom: 16px;
             border-bottom: 1px solid var(--border-color);
         }
-
-        .quiz-question:last-child {
-            border-bottom: none;
-        }
-
         .quiz-question .q {
             font-weight: 600;
             margin-bottom: 8px;
         }
-
-        .quiz-options {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
-
         .quiz-options label {
             display: flex;
             align-items: center;
             gap: 10px;
-            padding: 8px 14px;
+            padding: 6px 14px;
             background: var(--bg-secondary);
             border-radius: 8px;
             cursor: pointer;
             transition: all var(--transition);
+            margin-bottom: 4px;
             border: 1px solid transparent;
         }
-
         .quiz-options label:hover {
             border-color: var(--accent);
-            background: var(--bg-card);
         }
-
         .quiz-options input[type="radio"] {
             accent-color: var(--accent);
             width: 16px;
             height: 16px;
-            cursor: pointer;
         }
-
         .quiz-options label.correct {
             border-color: #4caf50;
             background: rgba(76, 175, 80, 0.12);
         }
-
         .quiz-options label.wrong {
             border-color: #f44336;
             background: rgba(244, 67, 54, 0.12);
         }
-
         .quiz-result {
             margin-top: 16px;
             font-weight: 600;
             font-size: 18px;
         }
-
         .btn {
             display: inline-block;
             padding: 10px 28px;
             background: var(--accent);
-            color: #fff;
+            color: #0b0b12;
             border: none;
             border-radius: 30px;
             font-weight: 600;
@@ -520,136 +290,32 @@
             transition: all var(--transition);
             box-shadow: 0 4px 16px var(--accent-glow);
         }
-
         .btn:hover {
-            background: var(--accent-hover);
-            transform: translateY(-1px);
+            transform: translateY(-2px);
             box-shadow: 0 8px 28px var(--accent-glow);
         }
 
-        .btn-outline {
-            background: transparent;
-            border: 2px solid var(--border-color);
-            color: var(--text-secondary);
-            box-shadow: none;
-        }
-
-        .btn-outline:hover {
+        /* ---------- 9. ПОДВАЛ ---------- */
+        .footer {
             background: var(--bg-secondary);
-            border-color: var(--accent);
-            color: var(--text-primary);
-            transform: none;
-            box-shadow: none;
-        }
-
-        /* -------- 13. АДАПТИВНОСТЬ -------- */
-        @media (max-width: 820px) {
-            .sidebar {
-                width: 72px;
-                padding: 16px 10px;
-            }
-            .sidebar-brand {
-                font-size: 0;
-                padding-bottom: 16px;
-                margin-bottom: 16px;
-                justify-content: center;
-            }
-            .sidebar-brand span {
-                font-size: 24px;
-            }
-            .sidebar-nav a {
-                justify-content: center;
-                padding: 10px;
-                font-size: 0;
-            }
-            .sidebar-nav a .icon {
-                font-size: 22px;
-                width: auto;
-            }
-            .sidebar-footer {
-                font-size: 0;
-                text-align: center;
-            }
-            .sidebar-footer::before {
-                content: '📖';
-                font-size: 20px;
-            }
-            .main {
-                padding: 20px 18px 40px;
-            }
-            .grid-2,
-            .grid-3 {
-                grid-template-columns: 1fr;
-            }
-            .page h1 {
-                font-size: 26px;
-            }
-            .connection-node {
-                flex-wrap: wrap;
-            }
-            .connection-node .relation {
-                margin-left: 0;
-                width: 100%;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .sidebar {
-                width: 56px;
-                padding: 12px 6px;
-            }
-            .sidebar-nav a {
-                padding: 8px;
-            }
-            .sidebar-nav a .icon {
-                font-size: 18px;
-            }
-            .main {
-                padding: 14px 12px 30px;
-            }
-            .card {
-                padding: 16px;
-            }
-            .track {
-                flex-wrap: wrap;
-            }
-            .track .duration {
-                margin-left: auto;
-            }
-        }
-
-        /* -------- 14. УТИЛИТЫ -------- */
-        .mt-8 {
-            margin-top: 8px;
-        }
-        .mt-16 {
-            margin-top: 16px;
-        }
-        .mt-24 {
-            margin-top: 24px;
-        }
-        .flex-center {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-        .text-muted {
+            border-top: 1px solid var(--border-color);
+            padding: 18px 24px;
+            text-align: center;
+            font-size: 14px;
             color: var(--text-muted);
+            margin-top: 30px;
         }
-        .gap-8 {
-            gap: 8px;
+        .footer a {
+            color: var(--accent);
+            text-decoration: none;
         }
-        .gap-4 {
-            gap: 4px;
+        .footer a:hover {
+            text-decoration: underline;
         }
 
-        /* для теста — подсветка */
-        .highlight {
-            background: var(--accent-glow);
-            padding: 2px 8px;
-            border-radius: 6px;
-            color: var(--accent);
+        /* ---------- 10. СКРЫТЫЙ АУДИО ---------- */
+        #bg-audio {
+            display: none;
         }
     </style>
 </head>
@@ -657,438 +323,162 @@
 <body>
 
     <!-- ============================================================
-    САЙДБАР — навигация по всем страницам
+    ШАПКА С МЕНЮ И ПЕРЕКЛЮЧАТЕЛЕМ ЯЗЫКОВ
     ============================================================ -->
-    <aside class="sidebar" role="navigation" aria-label="Основная навигация">
-        <div class="sidebar-brand">
-            <span>📜</span> Лор·Архив
-        </div>
+    <header class="top-header">
+        <a href="#" class="site-title" data-i18n="siteTitle" onclick="navigateTo('home'); return false;">
+            The Strange High House in the Mist
+        </a>
 
-        <nav class="sidebar-nav">
-            <a href="#" data-page="main" class="active">
-                <span class="icon">🏠</span> Главная
-            </a>
-            <a href="#" data-page="character">
-                <span class="icon">🧑‍🎨</span> Описание
-            </a>
-            <a href="#" data-page="characters">
-                <span class="icon">👥</span> Персонажи
-            </a>
-            <a href="#" data-page="connections">
-                <span class="icon">🔗</span> Связи
-            </a>
-            <a href="#" data-page="loremap">
-                <span class="icon">🗺️</span> Карта лора
-            </a>
-            <a href="#" data-page="music">
-                <span class="icon">🎵</span> Музыка
-            </a>
-            <a href="#" data-page="rating">
-                <span class="icon">⭐</span> Рейтинг
-            </a>
-            <a href="#" data-page="quiz">
-                <span class="icon">🧠</span> Тест
-            </a>
+        <nav class="nav-menu">
+            <a href="#" data-page="home" class="active" data-i18n="nav.home">Главная</a>
+            <a href="#" data-page="works" data-i18n="nav.works">Произведения</a>
+            <a href="#" data-page="characters" data-i18n="nav.characters">Персонажи</a>
+            <a href="#" data-page="creatures" data-i18n="nav.creatures">Существа</a>
+            <a href="#" data-page="locations" data-i18n="nav.locations">Местность</a>
+            <a href="#" data-page="quiz" data-i18n="nav.quiz">Тест</a>
         </nav>
 
-        <div class="sidebar-footer">
-            v1.0 · гибкий дизайн
+        <div class="lang-switch">
+            <button class="active" data-lang="ru" onclick="setLanguage('ru')">RU</button>
+            <button data-lang="en" onclick="setLanguage('en')">EN</button>
         </div>
-    </aside>
+    </header>
 
     <!-- ============================================================
-    ОСНОВНОЙ БЛОК — все страницы (секции)
+    ОСНОВНОЙ КОНТЕНТ (все страницы)
     ============================================================ -->
     <main class="main">
 
-        <!-- ========== СТРАНИЦА 1: ГЛАВНАЯ ========== -->
-        <section id="page-main" class="page active">
-            <h1>📖 Добро пожаловать в Лор·Архив</h1>
-            <div class="subtitle">Центральный узел всех знаний о мире, персонажах и историях</div>
+        <!-- ---------- ГЛАВНАЯ ---------- -->
+        <section id="page-home" class="page active">
+            <h1 data-i18n="home.title">О проекте</h1>
+            <div class="subtitle" data-i18n="home.subtitle">Добро пожаловать в туманный мир</div>
 
             <div class="card">
-                <h2>🌌 О проекте</h2>
-                <p>
-                    Это интерактивный архив, в котором собраны все ключевые элементы нашего мира.
-                    Здесь ты найдёшь детальные описания персонажей, карту лора, музыкальное сопровождение,
-                    а также сможешь проверить свои знания в увлекательном тесте.
+                <h2 data-i18n="home.aboutTitle">🏚️ The Strange High House</h2>
+                <p data-i18n="home.aboutText">
+                    Этот сайт посвящён мистическому дому, стоящему на утёсе среди вечных туманов.
+                    Здесь вы найдёте описания произведений, персонажей, существ и мест, связанных с этой странной обителью.
                 </p>
-                <p class="mt-8 text-muted">
-                    Используй навигацию слева, чтобы перемещаться между разделами. Все данные легко
-                    редактируются — просто меняй содержимое в соответствующих блоках.
+                <p class="mt-8 text-muted" data-i18n="home.aboutExtra">
+                    Проект вдохновлён атмосферой лавкрафтовских рассказов и является открытой площадкой для творчества.
                 </p>
             </div>
+        </section>
+
+        <!-- ---------- ПРОИЗВЕДЕНИЯ ---------- -->
+        <section id="page-works" class="page">
+            <h1 data-i18n="works.title">📚 Произведения</h1>
+            <div class="subtitle" data-i18n="works.subtitle">Рассказы и повести, связанные с Домом</div>
 
             <div class="grid-2">
                 <div class="card">
-                    <h2>📊 Быстрая статистика</h2>
-                    <ul style="list-style:none; padding:0;">
-                        <li style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border-color);">
-                            <span>Персонажей</span>
-                            <span class="highlight">8</span>
-                        </li>
-                        <li style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border-color);">
-                            <span>Локаций</span>
-                            <span class="highlight">5</span>
-                        </li>
-                        <li style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border-color);">
-                            <span>Треков</span>
-                            <span class="highlight">6</span>
-                        </li>
-                        <li style="display:flex;justify-content:space-between;padding:6px 0;">
-                            <span>Вопросов в тесте</span>
-                            <span class="highlight">6</span>
-                        </li>
-                    </ul>
+                    <h2>🌫️ «Туман над утёсом»</h2>
+                    <p data-i18n="works.work1">Рассказ о том, как путник находит Дом и встречает его обитателей.</p>
                 </div>
                 <div class="card">
-                    <h2>⚡ Быстрый старт</h2>
-                    <p style="margin-bottom:12px;">Начни исследовать мир с одного из разделов:</p>
-                    <div style="display:flex;flex-wrap:wrap;gap:8px;">
-                        <button class="btn btn-outline" onclick="navigateTo('character')">🧑‍🎨 Описание</button>
-                        <button class="btn btn-outline" onclick="navigateTo('characters')">👥 Персонажи</button>
-                        <button class="btn btn-outline" onclick="navigateTo('loremap')">🗺️ Карта</button>
-                        <button class="btn btn-outline" onclick="navigateTo('quiz')">🧠 Тест</button>
-                    </div>
+                    <h2>🕯️ «Шёпот стен»</h2>
+                    <p data-i18n="works.work2">История о тайных комнатах и древних знаниях, скрытых в стенах.</p>
+                </div>
+                <div class="card">
+                    <h2>🌊 «Зов из глубины»</h2>
+                    <p data-i18n="works.work3">Морская легенда, связывающая Дом с подводными силами.</p>
+                </div>
+                <div class="card">
+                    <h2>📜 «Хроники Хранителя»</h2>
+                    <p data-i18n="works.work4">Дневник последнего хранителя Дома, полный загадок.</p>
                 </div>
             </div>
         </section>
 
-        <!-- ========== СТРАНИЦА 2: ИНДИВИДУАЛЬНОЕ ОПИСАНИЕ ========== -->
-        <section id="page-character" class="page">
-            <h1>🧑‍🎨 Индивидуальное описание</h1>
-            <div class="subtitle">Портрет, характер, история — всё в одном месте</div>
-
-            <div class="card" style="display:flex;flex-wrap:wrap;gap:28px;align-items:flex-start;">
-                <div style="flex:0 0 160px;text-align:center;">
-                    <div style="width:140px;height:140px;border-radius:50%;background:var(--bg-secondary);border:3px solid var(--accent);display:flex;align-items:center;justify-content:center;font-size:64px;margin:0 auto 12px;">
-                        🧝
-                    </div>
-                    <h3 style="margin:0;">Элиан Ветроход</h3>
-                    <span class="text-muted" style="font-size:14px;">Странник · Хранитель</span>
-                </div>
-                <div style="flex:1;min-width:200px;">
-                    <p><strong>📝 Полное имя:</strong> Элиан Арвен Ветроход</p>
-                    <p><strong>🎂 Возраст:</strong> 243 года (бессмертный)</p>
-                    <p><strong>🏷️ Роль:</strong> Хранитель древних знаний, наставник</p>
-                    <p><strong>📖 Краткая история:</strong> Родился в эпоху Рассвета, был свидетелем падения трёх цивилизаций. Носит в себе память мира и передаёт её избранным.</p>
-                    <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:12px;">
-                        <span style="background:var(--bg-primary);padding:2px 14px;border-radius:20px;border:1px solid var(--border-color);font-size:13px;">🌿 Мудрость</span>
-                        <span style="background:var(--bg-primary);padding:2px 14px;border-radius:20px;border:1px solid var(--border-color);font-size:13px;">⚔️ Странник</span>
-                        <span style="background:var(--bg-primary);padding:2px 14px;border-radius:20px;border:1px solid var(--border-color);font-size:13px;">📜 Хранитель</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card">
-                <h2>🖼️ Произведения</h2>
-                <div style="display:flex;flex-wrap:wrap;gap:16px;">
-                    <div style="background:var(--bg-secondary);border-radius:var(--radius);padding:14px 20px;border:1px solid var(--border-color);flex:1;min-width:140px;">
-                        <div style="font-size:28px;">📘</div>
-                        <div style="font-weight:600;">Хроники Ветров</div>
-                        <div class="text-muted" style="font-size:14px;">Роман · 2024</div>
-                    </div>
-                    <div style="background:var(--bg-secondary);border-radius:var(--radius);padding:14px 20px;border:1px solid var(--border-color);flex:1;min-width:140px;">
-                        <div style="font-size:28px;">🎭</div>
-                        <div style="font-weight:600;">Театр Теней</div>
-                        <div class="text-muted" style="font-size:14px;">Пьеса · 2023</div>
-                    </div>
-                    <div style="background:var(--bg-secondary);border-radius:var(--radius);padding:14px 20px;border:1px solid var(--border-color);flex:1;min-width:140px;">
-                        <div style="font-size:28px;">🎨</div>
-                        <div style="font-weight:600;">Эскизы Безвременья</div>
-                        <div class="text-muted" style="font-size:14px;">Артбук · 2025</div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- ========== СТРАНИЦА 3: СПИСОК ПЕРСОНАЖЕЙ ========== -->
+        <!-- ---------- ПЕРСОНАЖИ ---------- -->
         <section id="page-characters" class="page">
-            <h1>👥 Персонажи</h1>
-            <div class="subtitle">Все герои мира и их роли</div>
+            <h1 data-i18n="characters.title">👥 Персонажи</h1>
+            <div class="subtitle" data-i18n="characters.subtitle">Обитатели и гости странного дома</div>
+
+            <div class="grid-3">
+                <div class="entity-card">
+                    <div class="name">🧙‍♂️ Элиан Ветроход</div>
+                    <div class="desc" data-i18n="characters.elian">Хранитель знаний, бессмертный странник.</div>
+                </div>
+                <div class="entity-card">
+                    <div class="name">⚔️ Лира Железная</div>
+                    <div class="desc" data-i18n="characters.lira">Воин, защитница границ тумана.</div>
+                </div>
+                <div class="entity-card">
+                    <div class="name">🕊️ Мира Эфемерная</div>
+                    <div class="desc" data-i18n="characters.mira">Танцовщица, шпионка, хозяйка иллюзий.</div>
+                </div>
+                <div class="entity-card">
+                    <div class="name">🔮 Орлан Тёмный</div>
+                    <div class="desc" data-i18n="characters.orlan">Маг-артефактор, хранитель тайных реликвий.</div>
+                </div>
+                <div class="entity-card">
+                    <div class="name">👑 Изольда Златогривая</div>
+                    <div class="desc" data-i18n="characters.isolde">Королева, дипломат, повелительница ветров.</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ---------- СУЩЕСТВА ---------- -->
+        <section id="page-creatures" class="page">
+            <h1 data-i18n="creatures.title">🐉 Существа</h1>
+            <div class="subtitle" data-i18n="creatures.subtitle">Мифические обитатели туманных земель</div>
 
             <div class="grid-2">
-                <div class="character-card">
-                    <div class="name"><span class="emoji">🧝</span> Элиан Ветроход</div>
-                    <div class="role">Хранитель знаний · Наставник</div>
-                    <div class="tags"><span>🌿 Мудрость</span><span>📜 Древний</span></div>
+                <div class="entity-card">
+                    <div class="name">🌫️ Туманный Змей</div>
+                    <div class="desc" data-i18n="creatures.serpent">Огромный змей, скрывающийся в тумане; охраняет вход в Дом.</div>
                 </div>
-                <div class="character-card">
-                    <div class="name"><span class="emoji">⚔️</span> Лира Железная</div>
-                    <div class="role">Воин · Защитница границ</div>
-                    <div class="tags"><span>🛡️ Воин</span><span>🔥 Страсть</span></div>
+                <div class="entity-card">
+                    <div class="name">🦇 Крылатая Тень</div>
+                    <div class="desc" data-i18n="creatures.shadow">Ночное существо, которое питается страхами путников.</div>
                 </div>
-                <div class="character-card">
-                    <div class="name"><span class="emoji">🕊️</span> Мира Эфемерная</div>
-                    <div class="role">Танцовщица · Шпионка</div>
-                    <div class="tags"><span>🌀 Тайна</span><span>🎭 Иллюзия</span></div>
+                <div class="entity-card">
+                    <div class="name">🧚 Светлячковый Рой</div>
+                    <div class="desc" data-i18n="creatures.fireflies">Рой светящихся духов, указывающих путь в тумане.</div>
                 </div>
-                <div class="character-card">
-                    <div class="name"><span class="emoji">🔮</span> Орлан Тёмный</div>
-                    <div class="role">Маг · Хранитель артефактов</div>
-                    <div class="tags"><span>🔮 Магия</span><span>📖 Артефакты</span></div>
-                </div>
-                <div class="character-card">
-                    <div class="name"><span class="emoji">🐺</span> Фенрир Бездомный</div>
-                    <div class="role">Изгой · Охотник</div>
-                    <div class="tags"><span>🐾 Зверь</span><span>🌲 Лес</span></div>
-                </div>
-                <div class="character-card">
-                    <div class="name"><span class="emoji">👑</span> Изольда Златогривая</div>
-                    <div class="role">Королева · Дипломат</div>
-                    <div class="tags"><span>👑 Власть</span><span>🕊️ Мир</span></div>
+                <div class="entity-card">
+                    <div class="name">🐺 Безликий Волк</div>
+                    <div class="desc" data-i18n="creatures.wolf">Призрачный волк, сопровождающий Хранителя.</div>
                 </div>
             </div>
         </section>
 
-        <!-- ========== СТРАНИЦА 4: СВЯЗИ ========== -->
-        <section id="page-connections" class="page">
-            <h1>🔗 Взаимодействия персонажей</h1>
-            <div class="subtitle">Как герои связаны друг с другом</div>
+        <!-- ---------- МЕСТНОСТЬ ---------- -->
+        <section id="page-locations" class="page">
+            <h1 data-i18n="locations.title">🗺️ Местность</h1>
+            <div class="subtitle" data-i18n="locations.subtitle">География мира странного дома</div>
 
-            <div class="card">
-                <h2>📌 Карта связей</h2>
-                <div style="font-size:14px;color:var(--text-muted);margin-bottom:16px;">
-                    Линии показывают ключевые отношения между персонажами.
-                </div>
-                <div style="display:flex;flex-direction:column;gap:6px;">
-                    <div class="connection-node">
-                        <span class="from">🧝 Элиан</span>
-                        <span class="arrow">➜</span>
-                        <span class="to">⚔️ Лира</span>
-                        <span class="relation">наставник</span>
-                    </div>
-                    <div class="connection-node">
-                        <span class="from">⚔️ Лира</span>
-                        <span class="arrow">➜</span>
-                        <span class="to">🕊️ Мира</span>
-                        <span class="relation">соперницы</span>
-                    </div>
-                    <div class="connection-node">
-                        <span class="from">🕊️ Мира</span>
-                        <span class="arrow">➜</span>
-                        <span class="to">🔮 Орлан</span>
-                        <span class="relation">союзники</span>
-                    </div>
-                    <div class="connection-node">
-                        <span class="from">🔮 Орлан</span>
-                        <span class="arrow">➜</span>
-                        <span class="to">🐺 Фенрир</span>
-                        <span class="relation">противники</span>
-                    </div>
-                    <div class="connection-node">
-                        <span class="from">🐺 Фенрир</span>
-                        <span class="arrow">➜</span>
-                        <span class="to">👑 Изольда</span>
-                        <span class="relation">служит</span>
-                    </div>
-                    <div class="connection-node">
-                        <span class="from">👑 Изольда</span>
-                        <span class="arrow">➜</span>
-                        <span class="to">🧝 Элиан</span>
-                        <span class="relation">советница</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card">
-                <h2>🌐 Сеть взаимодействий</h2>
-                <p class="text-muted">
-                    Каждый персонаж связан как минимум с двумя другими, образуя сложную сеть
-                    отношений — от дружбы и наставничества до соперничества и вражды.
-                </p>
-                <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;">
-                    <span style="background:var(--bg-secondary);padding:4px 16px;border-radius:20px;border:1px solid var(--border-color);">🧝→⚔️ наставник</span>
-                    <span style="background:var(--bg-secondary);padding:4px 16px;border-radius:20px;border:1px solid var(--border-color);">⚔️→🕊️ соперницы</span>
-                    <span style="background:var(--bg-secondary);padding:4px 16px;border-radius:20px;border:1px solid var(--border-color);">🕊️→🔮 союзники</span>
-                    <span style="background:var(--bg-secondary);padding:4px 16px;border-radius:20px;border:1px solid var(--border-color);">🔮→🐺 противники</span>
-                    <span style="background:var(--bg-secondary);padding:4px 16px;border-radius:20px;border:1px solid var(--border-color);">🐺→👑 служит</span>
-                    <span style="background:var(--bg-secondary);padding:4px 16px;border-radius:20px;border:1px solid var(--border-color);">👑→🧝 советница</span>
-                </div>
-            </div>
-        </section>
-
-        <!-- ========== СТРАНИЦА 5: КАРТА ЛОРА ========== -->
-        <section id="page-loremap" class="page">
-            <h1>🗺️ Карта лора</h1>
-            <div class="subtitle">География мира — места силы и события</div>
-
-            <div class="lore-map">
-                <div style="font-size:48px;">🌍</div>
-                <div style="font-weight:600;font-size:18px;color:var(--text-primary);">Земли Эфемериды</div>
-                <div class="region-list">
-                    <span>🏔️ Пик Ветров</span>
-                    <span>🌲 Теневой Лес</span>
-                    <span>🏜️ Пустошь Изгнанников</span>
-                    <span>🌊 Море Слёз</span>
-                    <span>🏰 Город Золотых Шпилей</span>
-                </div>
-                <div style="font-size:14px;color:var(--text-muted);margin-top:8px;">
-                    * кликни по региону, чтобы узнать подробности (интерактив в разработке)
-                </div>
-            </div>
-
-            <div class="grid-2 mt-16">
+            <div class="grid-2">
                 <div class="card">
-                    <h2>🏔️ Пик Ветров</h2>
-                    <p class="text-muted">Высочайшая точка мира, где ветры говорят с избранными. Здесь обитает Элиан.</p>
+                    <h2>🏔️ Утёс Туманов</h2>
+                    <p data-i18n="locations.cliff">Высокая скала, на которой стоит Дом. Вечный туман окутывает её подножие.</p>
                 </div>
                 <div class="card">
                     <h2>🌲 Теневой Лес</h2>
-                    <p class="text-muted">Древний лес, полный иллюзий и тайн. Дом Миры и место её тренировок.</p>
-                </div>
-                <div class="card">
-                    <h2>🏜️ Пустошь Изгнанников</h2>
-                    <p class="text-muted">Бесплодные земли, где скрывается Фенрир. Здесь не ступает нога королевской стражи.</p>
+                    <p data-i18n="locations.forest">Дремучий лес, полный иллюзий, где обитают Светлячковые Рои.</p>
                 </div>
                 <div class="card">
                     <h2>🌊 Море Слёз</h2>
-                    <p class="text-muted">Бескрайнее море, на берегах которого стоит Город Золотых Шпилей.</p>
+                    <p data-i18n="locations.sea">Бурное море, в котором, по легендам, спит древнее чудовище.</p>
                 </div>
-            </div>
-        </section>
-
-        <!-- ========== СТРАНИЦА 6: МУЗЫКА ========== -->
-        <section id="page-music" class="page">
-            <h1>🎵 Музыка</h1>
-            <div class="subtitle">Саундтрек мира — настроение в каждой ноте</div>
-
-            <div class="card">
-                <h2>▶️ Плейлист</h2>
-                <div style="margin-top:8px;">
-                    <div class="track">
-                        <button class="play" data-track="0">▶</button>
-                        <div class="info">
-                            <div class="title">Элегия Ветров</div>
-                            <div class="artist">Архив Лора</div>
-                        </div>
-                        <span class="duration">3:42</span>
-                    </div>
-                    <div class="track">
-                        <button class="play" data-track="1">▶</button>
-                        <div class="info">
-                            <div class="title">Танец Теней</div>
-                            <div class="artist">Мира Эфемерная</div>
-                        </div>
-                        <span class="duration">4:18</span>
-                    </div>
-                    <div class="track">
-                        <button class="play" data-track="2">▶</button>
-                        <div class="info">
-                            <div class="title">Сталь и Пламя</div>
-                            <div class="artist">Лира Железная</div>
-                        </div>
-                        <span class="duration">3:55</span>
-                    </div>
-                    <div class="track">
-                        <button class="play" data-track="3">▶</button>
-                        <div class="info">
-                            <div class="title">Хранители Артефактов</div>
-                            <div class="artist">Орлан Тёмный</div>
-                        </div>
-                        <span class="duration">5:02</span>
-                    </div>
-                    <div class="track">
-                        <button class="play" data-track="4">▶</button>
-                        <div class="info">
-                            <div class="title">Зов Пустоши</div>
-                            <div class="artist">Фенрир Бездомный</div>
-                        </div>
-                        <span class="duration">4:30</span>
-                    </div>
-                    <div class="track">
-                        <button class="play" data-track="5">▶</button>
-                        <div class="info">
-                            <div class="title">Корона и Мир</div>
-                            <div class="artist">Изольда Златогривая</div>
-                        </div>
-                        <span class="duration">3:28</span>
-                    </div>
-                </div>
-                <div style="margin-top:16px;font-size:14px;color:var(--text-muted);">
-                    ⚡ Нажми ▶, чтобы «воспроизвести» (демо-режим)
-                </div>
-            </div>
-        </section>
-
-        <!-- ========== СТРАНИЦА 7: РЕЙТИНГ ========== -->
-        <section id="page-rating" class="page">
-            <h1>⭐ Рейтинг</h1>
-            <div class="subtitle">Оцени произведение и персонажей</div>
-
-            <div class="card">
-                <h2>📊 Общий рейтинг мира</h2>
-                <div style="display:flex;align-items:center;gap:20px;flex-wrap:wrap;">
-                    <div style="font-size:48px;font-weight:700;color:var(--accent);">8.7</div>
-                    <div>
-                        <div style="display:flex;gap:4px;font-size:28px;">
-                            <span style="color:#f5b342;">★</span>
-                            <span style="color:#f5b342;">★</span>
-                            <span style="color:#f5b342;">★</span>
-                            <span style="color:#f5b342;">★</span>
-                            <span style="color:#f5b342;opacity:0.4;">★</span>
-                        </div>
-                        <div class="text-muted">на основе 124 оценок</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="grid-2">
                 <div class="card">
-                    <h2>🧑‍🎨 Рейтинг персонажей</h2>
-                    <ul style="list-style:none;padding:0;">
-                        <li style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border-color);">
-                            <span>🧝 Элиан Ветроход</span>
-                            <span style="color:#f5b342;">★ 9.2</span>
-                        </li>
-                        <li style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border-color);">
-                            <span>⚔️ Лира Железная</span>
-                            <span style="color:#f5b342;">★ 8.9</span>
-                        </li>
-                        <li style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border-color);">
-                            <span>🕊️ Мира Эфемерная</span>
-                            <span style="color:#f5b342;">★ 8.5</span>
-                        </li>
-                        <li style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border-color);">
-                            <span>🔮 Орлан Тёмный</span>
-                            <span style="color:#f5b342;">★ 8.1</span>
-                        </li>
-                        <li style="display:flex;justify-content:space-between;padding:8px 0;">
-                            <span>🐺 Фенрир Бездомный</span>
-                            <span style="color:#f5b342;">★ 7.8</span>
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="card">
-                    <h2>⭐ Оцени этот мир</h2>
-                    <p class="text-muted">Поставь свою оценку вселенной Лор·Архива</p>
-                    <div class="rating-stars" id="userRating">
-                        <span data-value="1">☆</span>
-                        <span data-value="2">☆</span>
-                        <span data-value="3">☆</span>
-                        <span data-value="4">☆</span>
-                        <span data-value="5">☆</span>
-                    </div>
-                    <div class="rating-display" id="ratingDisplay">
-                        Твоя оценка: <span id="userRatingValue">—</span> <small>/ 5</small>
-                    </div>
-                    <button class="btn" onclick="submitRating()" style="margin-top:10px;">Сохранить оценку</button>
-                    <span id="ratingFeedback" style="margin-left:12px;font-size:14px;color:var(--text-muted);"></span>
+                    <h2>🏚️ Заброшенная деревня</h2>
+                    <p data-i18n="locations.village">Руины поселения, где жили слуги Дома много веков назад.</p>
                 </div>
             </div>
         </section>
 
-        <!-- ========== СТРАНИЦА 8: ТЕСТ ========== -->
+        <!-- ---------- ТЕСТ ---------- -->
         <section id="page-quiz" class="page">
-            <h1>🧠 Тест на знание лора</h1>
-            <div class="subtitle">Проверь, насколько хорошо ты знаешь мир</div>
+            <h1 data-i18n="quiz.title">🧠 Тест на знание</h1>
+            <div class="subtitle" data-i18n="quiz.subtitle">Проверь, насколько хорошо ты изучил этот мир</div>
 
             <div class="card" id="quizContainer">
-                <div id="quizQuestions">
-                    <!-- вопросы рендерятся через JS -->
-                </div>
-                <button class="btn" id="quizSubmit">Проверить ответы</button>
+                <div id="quizQuestions"></div>
+                <button class="btn" id="quizSubmit" data-i18n="quiz.checkBtn">Проверить ответы</button>
                 <div class="quiz-result" id="quizResult"></div>
             </div>
         </section>
@@ -1096,41 +486,298 @@
     </main>
 
     <!-- ============================================================
-    JAVASCRIPT — навигация, интерактив, тест, рейтинг, музыка
+    ПОДВАЛ (одинаковый для всех страниц)
+    ============================================================ -->
+    <footer class="footer" data-i18n="footer.text">
+        © 2026 The Strange High House in the Mist · Все права защищены.
+        <span style="display:inline-block;margin-left:12px;">
+            <a href="#" onclick="navigateTo('home'); return false;">Главная</a>
+        </span>
+    </footer>
+
+    <!-- ============================================================
+    СКРЫТЫЙ АУДИОПЛЕЕР (фоновая музыка)
+    ============================================================ -->
+    <audio id="bg-audio" loop>
+        <!-- Укажите реальный URL вашего аудиофайла (например, в той же папке) -->
+        <source src="assets/background-music.mp3" type="audio/mpeg">
+        <!-- Если файл не найден, плеер молчит -->
+    </audio>
+
+    <!-- ============================================================
+    JAVASCRIPT — навигация, локализация, тест, фоновое аудио
     ============================================================ -->
     <script>
         (function() {
             'use strict';
 
-            // -------- 1. НАВИГАЦИЯ --------
-            const navLinks = document.querySelectorAll('.sidebar-nav a');
-            const pages = {
-                main: document.getElementById('page-main'),
-                character: document.getElementById('page-character'),
-                characters: document.getElementById('page-characters'),
-                connections: document.getElementById('page-connections'),
-                loremap: document.getElementById('page-loremap'),
-                music: document.getElementById('page-music'),
-                rating: document.getElementById('page-rating'),
-                quiz: document.getElementById('page-quiz'),
-            };
-
-            window.navigateTo = function(pageId) {
-                // скрыть все страницы
-                Object.values(pages).forEach(p => p.classList.remove('active'));
-                // показать нужную
-                if (pages[pageId]) pages[pageId].classList.add('active');
-                // обновить навигацию
-                navLinks.forEach(link => {
-                    link.classList.toggle('active', link.dataset.page === pageId);
-                });
-                // сохранить в истории (для кнопки "назад")
-                if (history.pushState) {
-                    history.pushState({ page: pageId }, '', '#' + pageId);
+            // ---------- 1. ЛОКАЛИЗАЦИЯ (i18n) ----------
+            const translations = {
+                ru: {
+                    siteTitle: 'Странный высокий дом в тумане',
+                    nav: {
+                        home: 'Главная',
+                        works: 'Произведения',
+                        characters: 'Персонажи',
+                        creatures: 'Существа',
+                        locations: 'Местность',
+                        quiz: 'Тест'
+                    },
+                    home: {
+                        title: 'О проекте',
+                        subtitle: 'Добро пожаловать в туманный мир',
+                        aboutTitle: '🏚️ Странный высокий дом',
+                        aboutText: 'Этот сайт посвящён мистическому дому, стоящему на утёсе среди вечных туманов. Здесь вы найдёте описания произведений, персонажей, существ и мест, связанных с этой странной обителью.',
+                        aboutExtra: 'Проект вдохновлён атмосферой лавкрафтовских рассказов и является открытой площадкой для творчества.'
+                    },
+                    works: {
+                        title: '📚 Произведения',
+                        subtitle: 'Рассказы и повести, связанные с Домом',
+                        work1: 'Рассказ о том, как путник находит Дом и встречает его обитателей.',
+                        work2: 'История о тайных комнатах и древних знаниях, скрытых в стенах.',
+                        work3: 'Морская легенда, связывающая Дом с подводными силами.',
+                        work4: 'Дневник последнего хранителя Дома, полный загадок.'
+                    },
+                    characters: {
+                        title: '👥 Персонажи',
+                        subtitle: 'Обитатели и гости странного дома',
+                        elian: 'Хранитель знаний, бессмертный странник.',
+                        lira: 'Воин, защитница границ тумана.',
+                        mira: 'Танцовщица, шпионка, хозяйка иллюзий.',
+                        orlan: 'Маг-артефактор, хранитель тайных реликвий.',
+                        isolde: 'Королева, дипломат, повелительница ветров.'
+                    },
+                    creatures: {
+                        title: '🐉 Существа',
+                        subtitle: 'Мифические обитатели туманных земель',
+                        serpent: 'Огромный змей, скрывающийся в тумане; охраняет вход в Дом.',
+                        shadow: 'Ночное существо, которое питается страхами путников.',
+                        fireflies: 'Рой светящихся духов, указывающих путь в тумане.',
+                        wolf: 'Призрачный волк, сопровождающий Хранителя.'
+                    },
+                    locations: {
+                        title: '🗺️ Местность',
+                        subtitle: 'География мира странного дома',
+                        cliff: 'Высокая скала, на которой стоит Дом. Вечный туман окутывает её подножие.',
+                        forest: 'Дремучий лес, полный иллюзий, где обитают Светлячковые Рои.',
+                        sea: 'Бурное море, в котором, по легендам, спит древнее чудовище.',
+                        village: 'Руины поселения, где жили слуги Дома много веков назад.'
+                    },
+                    quiz: {
+                        title: '🧠 Тест на знание',
+                        subtitle: 'Проверь, насколько хорошо ты изучил этот мир',
+                        checkBtn: 'Проверить ответы',
+                        question1: 'Как называется высокий дом на утёсе?',
+                        question2: 'Кто является Хранителем знаний?',
+                        question3: 'Какое существо охраняет вход в Дом?',
+                        question4: 'Где находится Теневой Лес?',
+                        question5: 'Кто написал «Хроники Хранителя»?',
+                        option1_1: 'Странный дом',
+                        option1_2: 'Дом в тумане',
+                        option1_3: 'Высокий дом',
+                        option1_4: 'Дом на скале',
+                        option2_1: 'Элиан Ветроход',
+                        option2_2: 'Орлан Тёмный',
+                        option2_3: 'Лира Железная',
+                        option2_4: 'Изольда Златогривая',
+                        option3_1: 'Туманный Змей',
+                        option3_2: 'Крылатая Тень',
+                        option3_3: 'Безликий Волк',
+                        option3_4: 'Светлячковый Рой',
+                        option4_1: 'На западе от Дома',
+                        option4_2: 'На востоке от Дома',
+                        option4_3: 'К югу от Утёса',
+                        option4_4: 'В центре мира',
+                        option5_1: 'Элиан Ветроход',
+                        option5_2: 'Неизвестный автор',
+                        option5_3: 'Изольда Златогривая',
+                        option5_4: 'Орлан Тёмный',
+                        correctAnswers: [0, 0, 0, 0, 0], // индексы правильных ответов (для каждого вопроса)
+                        resultMessages: {
+                            high: '🏆 Ты — истинный Хранитель тумана!',
+                            mid: '🌟 Хороший результат! Ты глубоко погрузился в мир.',
+                            low: '📖 Неплохо, но стоит перечитать разделы.',
+                            fail: '📚 Похоже, туман скрыл от тебя много тайн. Загляни в карту и описания.'
+                        }
+                    },
+                    footer: {
+                        text: '© 2026 The Strange High House in the Mist · Все права защищены.'
+                    }
+                },
+                en: {
+                    siteTitle: 'The Strange High House in the Mist',
+                    nav: {
+                        home: 'Home',
+                        works: 'Works',
+                        characters: 'Characters',
+                        creatures: 'Creatures',
+                        locations: 'Locations',
+                        quiz: 'Quiz'
+                    },
+                    home: {
+                        title: 'About the Project',
+                        subtitle: 'Welcome to the misty world',
+                        aboutTitle: '🏚️ The Strange High House',
+                        aboutText: 'This site is dedicated to the mysterious house perched on a cliff amid eternal mists. Here you will find descriptions of works, characters, creatures, and places connected to this strange abode.',
+                        aboutExtra: 'The project is inspired by the atmosphere of Lovecraftian tales and is an open platform for creativity.'
+                    },
+                    works: {
+                        title: '📚 Works',
+                        subtitle: 'Stories and tales related to the House',
+                        work1: 'A story of a traveler who finds the House and meets its inhabitants.',
+                        work2: 'A tale of secret rooms and ancient knowledge hidden within the walls.',
+                        work3: 'A sea legend linking the House with underwater forces.',
+                        work4: 'The diary of the last Keeper of the House, full of mysteries.'
+                    },
+                    characters: {
+                        title: '👥 Characters',
+                        subtitle: 'Inhabitants and guests of the strange house',
+                        elian: 'Keeper of knowledge, immortal wanderer.',
+                        lira: 'Warrior, defender of the mist borders.',
+                        mira: 'Dancer, spy, mistress of illusions.',
+                        orlan: 'Artificer mage, keeper of secret relics.',
+                        isolde: 'Queen, diplomat, mistress of the winds.'
+                    },
+                    creatures: {
+                        title: '🐉 Creatures',
+                        subtitle: 'Mythical dwellers of the misty lands',
+                        serpent: 'A huge serpent hidden in the mist; guards the entrance to the House.',
+                        shadow: 'A nocturnal creature that feeds on the fears of travelers.',
+                        fireflies: 'A swarm of glowing spirits that show the way in the mist.',
+                        wolf: 'A phantom wolf that accompanies the Keeper.'
+                    },
+                    locations: {
+                        title: '🗺️ Locations',
+                        subtitle: 'Geography of the world of the strange house',
+                        cliff: 'A high cliff where the House stands. Eternal mist envelops its foot.',
+                        forest: 'A dense forest full of illusions, home to the Firefly Swarms.',
+                        sea: 'A stormy sea in which, according to legend, an ancient monster sleeps.',
+                        village: 'Ruins of a settlement where the servants of the House lived centuries ago.'
+                    },
+                    quiz: {
+                        title: '🧠 Quiz',
+                        subtitle: 'Test how well you know this world',
+                        checkBtn: 'Check answers',
+                        question1: 'What is the name of the high house on the cliff?',
+                        question2: 'Who is the Keeper of knowledge?',
+                        question3: 'Which creature guards the entrance to the House?',
+                        question4: 'Where is the Shadow Forest located?',
+                        question5: 'Who wrote the "Chronicles of the Keeper"?',
+                        option1_1: 'Strange House',
+                        option1_2: 'House in the Mist',
+                        option1_3: 'High House',
+                        option1_4: 'House on the Cliff',
+                        option2_1: 'Elian Windwalker',
+                        option2_2: 'Orlan the Dark',
+                        option2_3: 'Lira Iron',
+                        option2_4: 'Isolde Goldenmane',
+                        option3_1: 'Mist Serpent',
+                        option3_2: 'Winged Shadow',
+                        option3_3: 'Faceless Wolf',
+                        option3_4: 'Firefly Swarm',
+                        option4_1: 'West of the House',
+                        option4_2: 'East of the House',
+                        option4_3: 'South of the Cliff',
+                        option4_4: 'Center of the world',
+                        option5_1: 'Elian Windwalker',
+                        option5_2: 'Unknown author',
+                        option5_3: 'Isolde Goldenmane',
+                        option5_4: 'Orlan the Dark',
+                        correctAnswers: [0, 0, 0, 0, 0],
+                        resultMessages: {
+                            high: '🏆 You are a true Keeper of the Mist!',
+                            mid: '🌟 Good result! You are deeply immersed in the world.',
+                            low: '📖 Not bad, but you should re-read the sections.',
+                            fail: '📚 It seems the mist has hidden many secrets from you. Check the map and descriptions.'
+                        }
+                    },
+                    footer: {
+                        text: '© 2026 The Strange High House in the Mist · All rights reserved.'
+                    }
                 }
             };
 
-            // клик по навигации
+            let currentLanguage = 'ru'; // по умолчанию русский
+
+            // ---------- 2. ФУНКЦИЯ ПЕРЕКЛЮЧЕНИЯ ЯЗЫКА ----------
+            function setLanguage(lang) {
+                if (!translations[lang]) return;
+                currentLanguage = lang;
+                // Обновить активную кнопку
+                document.querySelectorAll('.lang-switch button').forEach(btn => {
+                    btn.classList.toggle('active', btn.dataset.lang === lang);
+                });
+                // Обновить все элементы с data-i18n
+                document.querySelectorAll('[data-i18n]').forEach(el => {
+                    const key = el.dataset.i18n;
+                    const value = getTranslation(lang, key);
+                    if (value !== undefined) {
+                        // Если элемент содержит HTML (например, заголовки) – используем innerHTML
+                        // иначе textContent
+                        if (el.innerHTML.trim() !== el.textContent.trim()) {
+                            // есть HTML-теги, сохраним их, заменим только текст?
+                            // Проще заменить innerHTML полностью (если в ключе есть HTML, но у нас нет)
+                            el.textContent = value;
+                        } else {
+                            el.textContent = value;
+                        }
+                    }
+                });
+                // Обновить title страницы
+                document.title = getTranslation(lang, 'siteTitle');
+                // Обновить плейсхолдеры, если есть
+                // Перерисовать тест (вопросы из локализации)
+                renderQuiz();
+                // Сохранить язык в localStorage
+                try { localStorage.setItem('preferredLang', lang); } catch (e) {}
+            }
+
+            function getTranslation(lang, key) {
+                const keys = key.split('.');
+                let obj = translations[lang];
+                for (let k of keys) {
+                    if (obj && obj[k] !== undefined) obj = obj[k];
+                    else return undefined;
+                }
+                return obj;
+            }
+
+            // Восстановить язык из localStorage
+            try {
+                const saved = localStorage.getItem('preferredLang');
+                if (saved && translations[saved]) {
+                    currentLanguage = saved;
+                }
+            } catch (e) {}
+
+            // ---------- 3. НАВИГАЦИЯ ----------
+            const navLinks = document.querySelectorAll('.nav-menu a');
+            const pages = {
+                home: document.getElementById('page-home'),
+                works: document.getElementById('page-works'),
+                characters: document.getElementById('page-characters'),
+                creatures: document.getElementById('page-creatures'),
+                locations: document.getElementById('page-locations'),
+                quiz: document.getElementById('page-quiz')
+            };
+
+            window.navigateTo = function(pageId) {
+                if (!pages[pageId]) return;
+                // Скрыть все
+                Object.values(pages).forEach(p => p.classList.remove('active'));
+                // Показать нужную
+                pages[pageId].classList.add('active');
+                // Обновить навигацию
+                navLinks.forEach(link => {
+                    link.classList.toggle('active', link.dataset.page === pageId);
+                });
+                // Обновить URL (без перезагрузки)
+                if (history.pushState) {
+                    history.pushState({ page: pageId }, '', '#' + pageId);
+                }
+                // При смене страницы не сбрасываем язык
+            };
+
             navLinks.forEach(link => {
                 link.addEventListener('click', function(e) {
                     e.preventDefault();
@@ -1139,7 +786,7 @@
                 });
             });
 
-            // восстановление из URL-хэша
+            // Восстановление из хэша
             function restoreFromHash() {
                 const hash = location.hash.replace('#', '');
                 if (hash && pages[hash]) {
@@ -1147,157 +794,36 @@
                 }
             }
             window.addEventListener('hashchange', restoreFromHash);
-            // при загрузке
+            // При загрузке
             if (location.hash) {
                 restoreFromHash();
             } else {
-                // по умолчанию — главная
-                navigateTo('main');
+                navigateTo('home');
             }
 
-            // -------- 2. МУЗЫКА (демо-плеер) --------
-            const playButtons = document.querySelectorAll('.play');
-            const trackNames = [
-                'Элегия Ветров',
-                'Танец Теней',
-                'Сталь и Пламя',
-                'Хранители Артефактов',
-                'Зов Пустоши',
-                'Корона и Мир'
-            ];
-            let currentlyPlaying = null;
-
-            playButtons.forEach((btn, index) => {
-                btn.addEventListener('click', function() {
-                    const isPlaying = this.textContent === '⏸';
-                    // остановить все
-                    playButtons.forEach(b => {
-                        b.textContent = '▶';
-                        b.style.background = 'var(--accent)';
-                    });
-                    if (isPlaying) {
-                        currentlyPlaying = null;
-                        return;
-                    }
-                    this.textContent = '⏸';
-                    this.style.background = '#f5b342';
-                    currentlyPlaying = index;
-                    // показать уведомление (имитация плеера)
-                    const trackName = trackNames[index] || 'Трек';
-                    const feedback = document.createElement('div');
-                    feedback.style.cssText =
-                        'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--bg-card);border:1px solid var(--accent);padding:12px 28px;border-radius:40px;box-shadow:var(--shadow);z-index:999;font-weight:500;backdrop-filter:blur(8px);transition:all 0.3s;';
-                    feedback.textContent = `🎵 Сейчас играет: ${trackName}`;
-                    document.body.appendChild(feedback);
-                    setTimeout(() => {
-                        feedback.style.opacity = '0';
-                        setTimeout(() => feedback.remove(), 400);
-                    }, 2000);
-                });
-            });
-
-            // -------- 3. РЕЙТИНГ (звёзды) --------
-            const stars = document.querySelectorAll('#userRating span');
-            const ratingValueSpan = document.getElementById('userRatingValue');
-            let selectedRating = 0;
-
-            stars.forEach(star => {
-                star.addEventListener('click', function() {
-                    const val = parseInt(this.dataset.value);
-                    selectedRating = val;
-                    stars.forEach(s => {
-                        const sv = parseInt(s.dataset.value);
-                        s.classList.toggle('active', sv <= val);
-                        s.textContent = sv <= val ? '★' : '☆';
-                    });
-                    ratingValueSpan.textContent = val;
-                });
-                star.addEventListener('mouseenter', function() {
-                    const val = parseInt(this.dataset.value);
-                    stars.forEach(s => {
-                        const sv = parseInt(s.dataset.value);
-                        s.style.color = sv <= val ? '#f5b342' : '';
-                    });
-                });
-                star.addEventListener('mouseleave', function() {
-                    stars.forEach(s => {
-                        s.style.color = '';
-                    });
-                });
-            });
-
-            window.submitRating = function() {
-                const feedback = document.getElementById('ratingFeedback');
-                if (selectedRating === 0) {
-                    feedback.textContent = '⚠️ Поставь оценку сначала!';
-                    feedback.style.color = '#f44336';
-                    return;
-                }
-                feedback.textContent = `✅ Спасибо! Ты поставил ${selectedRating} ⭐`;
-                feedback.style.color = '#4caf50';
-                // можно сохранить в localStorage
-                try {
-                    localStorage.setItem('userLoreRating', selectedRating);
-                } catch (e) { /* ignore */ }
-            };
-
-            // восстановить сохранённую оценку
-            try {
-                const saved = localStorage.getItem('userLoreRating');
-                if (saved) {
-                    const val = parseInt(saved);
-                    if (val >= 1 && val <= 5) {
-                        stars.forEach(s => {
-                            const sv = parseInt(s.dataset.value);
-                            if (sv <= val) {
-                                s.classList.add('active');
-                                s.textContent = '★';
-                            } else {
-                                s.textContent = '☆';
-                            }
-                        });
-                        selectedRating = val;
-                        ratingValueSpan.textContent = val;
-                    }
-                }
-            } catch (e) { /* ignore */ }
-
-            // -------- 4. ТЕСТ --------
-            const quizData = [{
-                question: 'Как зовут Хранителя древних знаний?',
-                options: ['Элиан Ветроход', 'Орлан Тёмный', 'Фенрир Бездомный', 'Изольда Златогривая'],
-                correct: 0,
-            }, {
-                question: 'Где находится Теневой Лес?',
-                options: ['На востоке', 'В центре мира', 'На западе', 'Под землёй'],
-                correct: 0,
-            }, {
-                question: 'Кто является наставником Лиры Железной?',
-                options: ['Орлан Тёмный', 'Элиан Ветроход', 'Мира Эфемерная', 'Изольда Златогривая'],
-                correct: 1,
-            }, {
-                question: 'Какое море омывает Город Золотых Шпилей?',
-                options: ['Море Слёз', 'Море Ветров', 'Море Теней', 'Море Изгнанников'],
-                correct: 0,
-            }, {
-                question: 'Кто служит королеве Изольде?',
-                options: ['Элиан', 'Лира', 'Фенрир', 'Орлан'],
-                correct: 2,
-            }, {
-                question: 'Какой персонаж известен как "Танцовщица · Шпионка"?',
-                options: ['Лира Железная', 'Мира Эфемерная', 'Изольда Златогривая', 'Элиан Ветроход'],
-                correct: 1,
-            }, ];
-
-            const quizContainer = document.getElementById('quizQuestions');
-            const quizSubmit = document.getElementById('quizSubmit');
-            const quizResult = document.getElementById('quizResult');
-
+            // ---------- 4. ТЕСТ (викторина) ----------
             function renderQuiz() {
+                const container = document.getElementById('quizQuestions');
+                const lang = currentLanguage;
+                const t = translations[lang].quiz;
+                // Вопросы и варианты
+                const questions = [
+                    { q: t.question1, options: [t.option1_1, t.option1_2, t.option1_3, t.option1_4], correct: t
+                            .correctAnswers[0] },
+                    { q: t.question2, options: [t.option2_1, t.option2_2, t.option2_3, t.option2_4], correct: t
+                            .correctAnswers[1] },
+                    { q: t.question3, options: [t.option3_1, t.option3_2, t.option3_3, t.option3_4], correct: t
+                            .correctAnswers[2] },
+                    { q: t.question4, options: [t.option4_1, t.option4_2, t.option4_3, t.option4_4], correct: t
+                            .correctAnswers[3] },
+                    { q: t.question5, options: [t.option5_1, t.option5_2, t.option5_3, t.option5_4], correct: t
+                            .correctAnswers[4] }
+                ];
+
                 let html = '';
-                quizData.forEach((q, idx) => {
+                questions.forEach((q, idx) => {
                     html += `<div class="quiz-question" data-q="${idx}">
-                                <div class="q">${idx+1}. ${q.question}</div>
+                                <div class="q">${idx+1}. ${q.q}</div>
                                 <div class="quiz-options">`;
                     q.options.forEach((opt, oi) => {
                         html += `<label>
@@ -1307,33 +833,36 @@
                     });
                     html += `</div></div>`;
                 });
-                quizContainer.innerHTML = html;
-            }
-            renderQuiz();
+                container.innerHTML = html;
 
-            quizSubmit.addEventListener('click', function() {
-                let correct = 0;
-                let total = quizData.length;
+                // Сбросить результат
+                document.getElementById('quizResult').innerHTML = '';
+            }
+
+            // Проверка теста
+            document.getElementById('quizSubmit').addEventListener('click', function() {
+                const lang = currentLanguage;
+                const t = translations[lang].quiz;
+                const correctAnswers = t.correctAnswers; // массив индексов
+                const questions = document.querySelectorAll('.quiz-question');
+                let correctCount = 0;
                 let allAnswered = true;
 
-                quizData.forEach((q, idx) => {
-                    const selected = document.querySelector(`input[name="q${idx}"]:checked`);
-                    const labels = document.querySelectorAll(`.quiz-question[data-q="${idx}"] label`);
-                    // сбросить подсветку
-                    labels.forEach(l => {
-                        l.classList.remove('correct', 'wrong');
-                    });
+                questions.forEach((q, idx) => {
+                    const selected = q.querySelector('input:checked');
+                    const labels = q.querySelectorAll('label');
+                    labels.forEach(l => l.classList.remove('correct', 'wrong'));
 
                     if (selected) {
                         const val = parseInt(selected.value);
-                        if (val === q.correct) {
-                            correct++;
+                        if (val === correctAnswers[idx]) {
+                            correctCount++;
                             labels.forEach((l, i) => {
-                                if (i === q.correct) l.classList.add('correct');
+                                if (i === correctAnswers[idx]) l.classList.add('correct');
                             });
                         } else {
                             labels.forEach((l, i) => {
-                                if (i === q.correct) l.classList.add('correct');
+                                if (i === correctAnswers[idx]) l.classList.add('correct');
                                 if (i === val) l.classList.add('wrong');
                             });
                         }
@@ -1342,36 +871,56 @@
                     }
                 });
 
+                const resultDiv = document.getElementById('quizResult');
                 if (!allAnswered) {
-                    quizResult.textContent = '⚠️ Ответь на все вопросы, прежде чем проверить!';
-                    quizResult.style.color = '#f5b342';
+                    resultDiv.textContent = '⚠️ ' + (lang === 'ru' ? 'Ответь на все вопросы!' : 'Answer all questions!');
+                    resultDiv.style.color = '#f5b342';
                     return;
                 }
 
-                const percent = Math.round((correct / total) * 100);
-                let emoji = '😢';
-                let message = 'Попробуй ещё раз, изучи лор получше!';
-                if (percent >= 90) { emoji = '🏆';
-                    message = 'Ты — истинный Хранитель знаний!'; } else if (percent >= 70) { emoji = '🌟';
-                    message = 'Хороший результат! Ты хорошо знаешь мир.'; } else if (percent >= 50) { emoji = '📖';
-                    message = 'Неплохо, но есть куда расти. Перечитай разделы!'; } else { emoji = '📚';
-                    message = 'Время освежить знания. Загляни в карту лора и описания.'; }
+                const total = questions.length;
+                const percent = Math.round((correctCount / total) * 100);
+                let msg;
+                if (percent >= 90) msg = t.resultMessages.high;
+                else if (percent >= 70) msg = t.resultMessages.mid;
+                else if (percent >= 50) msg = t.resultMessages.low;
+                else msg = t.resultMessages.fail;
 
-                quizResult.innerHTML =
-                    `${emoji} <strong>${correct} из ${total}</strong> (${percent}%) — ${message}`;
-                quizResult.style.color = 'var(--text-primary)';
+                resultDiv.innerHTML = `${msg} (${correctCount}/${total})`;
+                resultDiv.style.color = 'var(--text-primary)';
             });
 
-            // -------- 5. ДОБАВЛЕНИЕ НОВЫХ СТРАНИЦ (пример) --------
-            // Чтобы добавить новую страницу:
-            // 1. Добавь <section id="page-..." class="page"> в HTML
-            // 2. Добавь ссылку в .sidebar-nav: <a href="#" data-page="...">
-            // 3. Всё! Навигация подхватится автоматически.
-            console.log('📜 Лор·Архив загружен. Чтобы добавить страницу:');
-            console.log('1. <section id="page-..."> 2. <a data-page="...">');
+            // ---------- 5. ФОНОВАЯ МУЗЫКА (скрытый плеер) ----------
+            const audio = document.getElementById('bg-audio');
+            // Попытка автостарта (может не работать в некоторых браузерах)
+            audio.volume = 0.3; // тихий фон
+            audio.loop = true;
 
-            // Сообщение о гибкости
-            console.log('💡 Измени CSS-переменные в :root, чтобы поменять дизайн.');
+            // Запускаем при первом клике по странице (если не запустился автоматически)
+            function tryPlayAudio() {
+                if (audio.paused) {
+                    audio.play().catch(() => { /* игнорируем ошибки */ });
+                }
+                document.removeEventListener('click', tryPlayAudio);
+                document.removeEventListener('touchstart', tryPlayAudio);
+            }
+            // Если autoplay не сработает, запускаем по первому взаимодействию
+            audio.play().catch(() => {
+                document.addEventListener('click', tryPlayAudio);
+                document.addEventListener('touchstart', tryPlayAudio);
+            });
+
+            // ---------- 6. ПРИМЕНЕНИЕ ЯЗЫКА ПРИ СТАРТЕ ----------
+            setLanguage(currentLanguage);
+
+            // ---------- 7. ДОПОЛНИТЕЛЬНО: для подвала используем data-i18n ----------
+            // Подвал уже размечен, обновится через setLanguage
+
+            // ---------- 8. КОНСОЛЬНЫЕ ПОДСКАЗКИ ----------
+            console.log('🔮 The Strange High House in the Mist загружен.');
+            console.log('💡 Для изменения дизайна отредактируйте CSS-переменные в :root.');
+            console.log('📂 Чтобы добавить изображения, поместите их в папку assets/ и используйте <img src="assets/...">.');
+            console.log('🌐 Для переключения языка используйте кнопки RU/EN.');
 
         })();
     </script>
