@@ -6,10 +6,10 @@
     <title>The Strange High House in the Mist</title>
 
     <!-- ============================================================
-         CSS – все стили в одном файле, с возможностью вынести в отдельный .css
+         CSS – все стили (можно вынести в отдельный файл)
          ============================================================ -->
     <style>
-        /* ---------- 1. ПЕРЕМЕННЫЕ (дизайн легко менять) ---------- */
+        /* ---------- 1. ПЕРЕМЕННЫЕ ---------- */
         :root {
             --bg-primary: #0b0b12;
             --bg-secondary: #181825;
@@ -208,7 +208,7 @@
             .main { padding: 20px 16px; }
         }
 
-        /* ---------- 7. ЭЛЕМЕНТЫ ДЛЯ ПЕРСОНАЖЕЙ, СУЩЕСТВ ---------- */
+        /* ---------- 7. КАРТОЧКИ СУЩНОСТЕЙ ---------- */
         .entity-card {
             background: var(--bg-secondary);
             border-radius: var(--radius);
@@ -317,6 +317,8 @@
         #bg-audio {
             display: none;
         }
+        .mt-8 { margin-top: 8px; }
+        .text-muted { color: var(--text-muted); }
     </style>
 </head>
 
@@ -340,8 +342,8 @@
         </nav>
 
         <div class="lang-switch">
-            <button class="active" data-lang="ru" onclick="setLanguage('ru')">RU</button>
-            <button data-lang="en" onclick="setLanguage('en')">EN</button>
+            <button class="active" data-lang="ru">RU</button>
+            <button data-lang="en">EN</button>
         </div>
     </header>
 
@@ -356,7 +358,7 @@
             <div class="subtitle" data-i18n="home.subtitle">Добро пожаловать в туманный мир</div>
 
             <div class="card">
-                <h2 data-i18n="home.aboutTitle">🏚️ The Strange High House</h2>
+                <h2 data-i18n="home.aboutTitle">🏚️ Странный высокий дом</h2>
                 <p data-i18n="home.aboutText">
                     Этот сайт посвящён мистическому дому, стоящему на утёсе среди вечных туманов.
                     Здесь вы найдёте описания произведений, персонажей, существ и мест, связанных с этой странной обителью.
@@ -486,12 +488,12 @@
     </main>
 
     <!-- ============================================================
-    ПОДВАЛ (одинаковый для всех страниц)
+    ПОДВАЛ
     ============================================================ -->
     <footer class="footer" data-i18n="footer.text">
         © 2026 The Strange High House in the Mist · Все права защищены.
         <span style="display:inline-block;margin-left:12px;">
-            <a href="#" onclick="navigateTo('home'); return false;">Главная</a>
+            <a href="#" onclick="navigateTo('home'); return false;" data-i18n="footer.homeLink">Главная</a>
         </span>
     </footer>
 
@@ -499,22 +501,22 @@
     СКРЫТЫЙ АУДИОПЛЕЕР (фоновая музыка)
     ============================================================ -->
     <audio id="bg-audio" loop>
-        <!-- Укажите реальный URL вашего аудиофайла (например, в той же папке) -->
+        <!-- Замените src на путь к вашему аудиофайлу -->
         <source src="assets/background-music.mp3" type="audio/mpeg">
-        <!-- Если файл не найден, плеер молчит -->
+        <!-- Если файл не найден, плеер просто молчит -->
     </audio>
 
     <!-- ============================================================
-    JAVASCRIPT — навигация, локализация, тест, фоновое аудио
+    ИСПРАВЛЕННЫЙ JAVASCRIPT – с глобальными функциями и обработчиками
     ============================================================ -->
     <script>
         (function() {
             'use strict';
 
-            // ---------- 1. ЛОКАЛИЗАЦИЯ (i18n) ----------
+            // ---------- 1. ЛОКАЛИЗАЦИЯ (ПОЛНЫЕ ОБЪЕКТЫ) ----------
             const translations = {
                 ru: {
-                    siteTitle: 'The Strange High House in the Mist',
+                    siteTitle: 'Странный высокий дом в тумане',
                     nav: {
                         home: 'Главная',
                         works: 'Произведения',
@@ -592,7 +594,7 @@
                         option5_2: 'Неизвестный автор',
                         option5_3: 'Изольда Златогривая',
                         option5_4: 'Орлан Тёмный',
-                        correctAnswers: [0, 0, 0, 0, 0], // индексы правильных ответов (для каждого вопроса)
+                        correctAnswers: [0, 0, 0, 0, 0],
                         resultMessages: {
                             high: '🏆 Ты — истинный Хранитель тумана!',
                             mid: '🌟 Хороший результат! Ты глубоко погрузился в мир.',
@@ -601,7 +603,8 @@
                         }
                     },
                     footer: {
-                        text: '© 2026 The Strange High House in the Mist · Все права защищены.'
+                        text: '© 2026 The Strange High House in the Mist · Все права защищены.',
+                        homeLink: 'Главная'
                     }
                 },
                 en: {
@@ -692,45 +695,42 @@
                         }
                     },
                     footer: {
-                        text: '© 2026 The Strange High House in the Mist · All rights reserved.'
+                        text: '© 2026 The Strange High House in the Mist · All rights reserved.',
+                        homeLink: 'Home'
                     }
                 }
             };
 
-            let currentLanguage = 'ru'; // по умолчанию русский
+            let currentLanguage = 'ru';
 
-            // ---------- 2. ФУНКЦИЯ ПЕРЕКЛЮЧЕНИЯ ЯЗЫКА ----------
-            function setLanguage(lang) {
+            // ---------- 2. ГЛОБАЛЬНАЯ ФУНКЦИЯ ПЕРЕКЛЮЧЕНИЯ ЯЗЫКА ----------
+            window.setLanguage = function(lang) {
                 if (!translations[lang]) return;
                 currentLanguage = lang;
-                // Обновить активную кнопку
+
+                // Кнопки
                 document.querySelectorAll('.lang-switch button').forEach(btn => {
                     btn.classList.toggle('active', btn.dataset.lang === lang);
                 });
-                // Обновить все элементы с data-i18n
+
+                // Все элементы с data-i18n
                 document.querySelectorAll('[data-i18n]').forEach(el => {
                     const key = el.dataset.i18n;
                     const value = getTranslation(lang, key);
                     if (value !== undefined) {
-                        // Если элемент содержит HTML (например, заголовки) – используем innerHTML
-                        // иначе textContent
-                        if (el.innerHTML.trim() !== el.textContent.trim()) {
-                            // есть HTML-теги, сохраним их, заменим только текст?
-                            // Проще заменить innerHTML полностью (если в ключе есть HTML, но у нас нет)
-                            el.textContent = value;
-                        } else {
-                            el.textContent = value;
-                        }
+                        el.textContent = value;
                     }
                 });
-                // Обновить title страницы
+
+                // Заголовок страницы
                 document.title = getTranslation(lang, 'siteTitle');
-                // Обновить плейсхолдеры, если есть
-                // Перерисовать тест (вопросы из локализации)
+
+                // Перерисовать тест
                 renderQuiz();
-                // Сохранить язык в localStorage
+
+                // Сохранить язык
                 try { localStorage.setItem('preferredLang', lang); } catch (e) {}
-            }
+            };
 
             function getTranslation(lang, key) {
                 const keys = key.split('.');
@@ -742,71 +742,35 @@
                 return obj;
             }
 
-            // Восстановить язык из localStorage
-            try {
-                const saved = localStorage.getItem('preferredLang');
-                if (saved && translations[saved]) {
-                    currentLanguage = saved;
-                }
-            } catch (e) {}
-
-            // ---------- 3. НАВИГАЦИЯ ----------
-            const navLinks = document.querySelectorAll('.nav-menu a');
-            const pages = {
-                home: document.getElementById('page-home'),
-                works: document.getElementById('page-works'),
-                characters: document.getElementById('page-characters'),
-                creatures: document.getElementById('page-creatures'),
-                locations: document.getElementById('page-locations'),
-                quiz: document.getElementById('page-quiz')
-            };
-
+            // ---------- 3. ГЛОБАЛЬНАЯ НАВИГАЦИЯ ----------
             window.navigateTo = function(pageId) {
+                const pages = {
+                    home: document.getElementById('page-home'),
+                    works: document.getElementById('page-works'),
+                    characters: document.getElementById('page-characters'),
+                    creatures: document.getElementById('page-creatures'),
+                    locations: document.getElementById('page-locations'),
+                    quiz: document.getElementById('page-quiz')
+                };
                 if (!pages[pageId]) return;
-                // Скрыть все
                 Object.values(pages).forEach(p => p.classList.remove('active'));
-                // Показать нужную
                 pages[pageId].classList.add('active');
-                // Обновить навигацию
-                navLinks.forEach(link => {
+
+                document.querySelectorAll('.nav-menu a').forEach(link => {
                     link.classList.toggle('active', link.dataset.page === pageId);
                 });
-                // Обновить URL (без перезагрузки)
+
                 if (history.pushState) {
                     history.pushState({ page: pageId }, '', '#' + pageId);
                 }
-                // При смене страницы не сбрасываем язык
             };
 
-            navLinks.forEach(link => {
-                link.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const pageId = this.dataset.page;
-                    if (pageId) navigateTo(pageId);
-                });
-            });
-
-            // Восстановление из хэша
-            function restoreFromHash() {
-                const hash = location.hash.replace('#', '');
-                if (hash && pages[hash]) {
-                    navigateTo(hash);
-                }
-            }
-            window.addEventListener('hashchange', restoreFromHash);
-            // При загрузке
-            if (location.hash) {
-                restoreFromHash();
-            } else {
-                navigateTo('home');
-            }
-
-            // ---------- 4. ТЕСТ (викторина) ----------
+            // ---------- 4. ТЕСТ ----------
             function renderQuiz() {
                 const container = document.getElementById('quizQuestions');
+                if (!container) return;
                 const lang = currentLanguage;
                 const t = translations[lang].quiz;
-                // Вопросы и варианты
                 const questions = [
                     { q: t.question1, options: [t.option1_1, t.option1_2, t.option1_3, t.option1_4], correct: t
                             .correctAnswers[0] },
@@ -819,7 +783,6 @@
                     { q: t.question5, options: [t.option5_1, t.option5_2, t.option5_3, t.option5_4], correct: t
                             .correctAnswers[4] }
                 ];
-
                 let html = '';
                 questions.forEach((q, idx) => {
                     html += `<div class="quiz-question" data-q="${idx}">
@@ -834,16 +797,57 @@
                     html += `</div></div>`;
                 });
                 container.innerHTML = html;
-
-                // Сбросить результат
-                document.getElementById('quizResult').innerHTML = '';
+                const resultDiv = document.getElementById('quizResult');
+                if (resultDiv) resultDiv.innerHTML = '';
             }
 
-            // Проверка теста
+            // ---------- 5. ИНИЦИАЛИЗАЦИЯ ----------
+            // Восстановить язык
+            try {
+                const saved = localStorage.getItem('preferredLang');
+                if (saved && translations[saved]) {
+                    currentLanguage = saved;
+                }
+            } catch (e) {}
+
+            // Применить язык
+            window.setLanguage(currentLanguage);
+
+            // ---------- 6. ОБРАБОТЧИКИ СОБЫТИЙ (вместо onclick) ----------
+            // Кнопки языка
+            document.querySelectorAll('.lang-switch button').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const lang = this.dataset.lang;
+                    if (lang) window.setLanguage(lang);
+                });
+            });
+
+            // Ссылки навигации
+            document.querySelectorAll('.nav-menu a').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const pageId = this.dataset.page;
+                    if (pageId) window.navigateTo(pageId);
+                });
+            });
+
+            // Хэш-навигация
+            window.addEventListener('hashchange', function() {
+                const hash = location.hash.replace('#', '');
+                if (hash) window.navigateTo(hash);
+            });
+            if (location.hash) {
+                const hash = location.hash.replace('#', '');
+                if (hash) window.navigateTo(hash);
+            } else {
+                window.navigateTo('home');
+            }
+
+            // Кнопка проверки теста
             document.getElementById('quizSubmit').addEventListener('click', function() {
                 const lang = currentLanguage;
                 const t = translations[lang].quiz;
-                const correctAnswers = t.correctAnswers; // массив индексов
+                const correctAnswers = t.correctAnswers;
                 const questions = document.querySelectorAll('.quiz-question');
                 let correctCount = 0;
                 let allAnswered = true;
@@ -890,38 +894,26 @@
                 resultDiv.style.color = 'var(--text-primary)';
             });
 
-            // ---------- 5. ФОНОВАЯ МУЗЫКА (скрытый плеер) ----------
+            // ---------- 7. ФОНОВАЯ МУЗЫКА ----------
             const audio = document.getElementById('bg-audio');
-            // Попытка автостарта (может не работать в некоторых браузерах)
-            audio.volume = 0.3; // тихий фон
-            audio.loop = true;
-
-            // Запускаем при первом клике по странице (если не запустился автоматически)
-            function tryPlayAudio() {
-                if (audio.paused) {
-                    audio.play().catch(() => { /* игнорируем ошибки */ });
-                }
-                document.removeEventListener('click', tryPlayAudio);
-                document.removeEventListener('touchstart', tryPlayAudio);
+            if (audio) {
+                audio.volume = 0.3;
+                audio.loop = true;
+                audio.play().catch(() => {
+                    document.addEventListener('click', function tryPlay() {
+                        audio.play().catch(() => {});
+                        document.removeEventListener('click', tryPlay);
+                        document.removeEventListener('touchstart', tryPlay);
+                    });
+                    document.addEventListener('touchstart', function tryPlay() {
+                        audio.play().catch(() => {});
+                        document.removeEventListener('click', tryPlay);
+                        document.removeEventListener('touchstart', tryPlay);
+                    });
+                });
             }
-            // Если autoplay не сработает, запускаем по первому взаимодействию
-            audio.play().catch(() => {
-                document.addEventListener('click', tryPlayAudio);
-                document.addEventListener('touchstart', tryPlayAudio);
-            });
 
-            // ---------- 6. ПРИМЕНЕНИЕ ЯЗЫКА ПРИ СТАРТЕ ----------
-            setLanguage(currentLanguage);
-
-            // ---------- 7. ДОПОЛНИТЕЛЬНО: для подвала используем data-i18n ----------
-            // Подвал уже размечен, обновится через setLanguage
-
-            // ---------- 8. КОНСОЛЬНЫЕ ПОДСКАЗКИ ----------
-            console.log('🔮 The Strange High House in the Mist загружен.');
-            console.log('💡 Для изменения дизайна отредактируйте CSS-переменные в :root.');
-            console.log('📂 Чтобы добавить изображения, поместите их в папку assets/ и используйте <img src="assets/...">.');
-            console.log('🌐 Для переключения языка используйте кнопки RU/EN.');
-
+            console.log('🔮 The Strange High House in the Mist загружен. Язык: ' + currentLanguage);
         })();
     </script>
 
