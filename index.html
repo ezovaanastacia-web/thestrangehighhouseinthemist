@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>The Strange High House in the Mist</title>
 
-    <!-- Шрифт Cutive Mono (печатная машинка) -->
-    <link href="https://fonts.googleapis.com/css2?family=Cutive+Mono&display=swap" rel="stylesheet" />
+    <!-- ===== ПОДКЛЮЧАЕМ ШРИФТ "Caveat" (рукописный, похож на Love Letter) ===== -->
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&display=swap" rel="stylesheet" />
 
     <style>
         /* ---------- ПЕРЕМЕННЫЕ ---------- */
@@ -24,7 +24,8 @@
             --shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
             --radius: 12px;
             --transition: 0.25s ease;
-            --font: 'Cutive Mono', 'Courier New', Courier, monospace;
+            /* НОВЫЙ ШРИФТ – рукописный, с кириллицей */
+            --font: 'Caveat', 'Marck Script', 'Bad Script', cursive;
         }
 
         /* ---------- БАЗА ---------- */
@@ -41,32 +42,14 @@
             line-height: 1.6;
         }
 
-        /* ---------- ВСЕ ЗАГОЛОВКИ – ЭФФЕКТ «ПОТЁРТОЙ ПЕЧАТИ» ---------- */
-        h1, h2, h3, .site-title, .entity-card .name, .page h1, .card h2, .nav-menu a, .quiz-question .q, .btn {
+        /* ---------- ВСЕ ТЕКСТЫ ИСПОЛЬЗУЮТ ЕДИНЫЙ ШРИФТ (без фильтров) ---------- */
+        h1, h2, h3, .site-title, .entity-card .name, .nav-menu a, .btn, .footer, .card p, .quiz-question .q {
             font-family: var(--font);
-            /* Эффект плохой печати: размытие + тени + сниженная контрастность */
-            filter: blur(0.3px) contrast(1.1);
-            text-shadow: 
-                0.5px 0.5px 0px rgba(255, 255, 255, 0.08),
-                -0.3px -0.3px 0px rgba(0, 0, 0, 0.6),
-                0px 0px 2px rgba(0, 0, 0, 0.4);
-            letter-spacing: 0.06em;
-            opacity: 0.92; /* лёгкое выцветание */
-            transition: filter 0.2s, opacity 0.2s;
-        }
-        /* Для ссылок в навигации – чуть мягче, чтобы не размывать кликабельность */
-        .nav-menu a {
-            filter: blur(0.1px) contrast(1.05);
-            text-shadow: 0px 0px 1px rgba(0,0,0,0.3);
-            opacity: 0.9;
-        }
-        .nav-menu a.active {
-            filter: none; /* активный пункт – чёткий для читаемости */
-            opacity: 1;
-            text-shadow: none;
+            /* НЕТ размытия, нет лишних теней – только чистый шрифт */
+            letter-spacing: 0.04em;
         }
 
-        /* ---------- ОСТАЛЬНЫЕ СТИЛИ (без изменений, но с новым шрифтом) ---------- */
+        /* ---------- ВЕРХНЕЕ МЕНЮ ---------- */
         .top-header {
             background: var(--bg-secondary);
             border-bottom: 1px solid var(--border-color);
@@ -82,9 +65,8 @@
             backdrop-filter: blur(4px);
         }
         .site-title {
-            font-size: 22px;
+            font-size: 26px;
             font-weight: 700;
-            letter-spacing: 0.08em;
             color: var(--accent);
             text-decoration: none;
             padding: 12px 0;
@@ -92,11 +74,8 @@
         .site-title small {
             font-weight: 400;
             color: var(--text-muted);
-            font-size: 14px;
+            font-size: 16px;
             margin-left: 8px;
-            filter: none; /* не применяем к small */
-            opacity: 1;
-            text-shadow: none;
         }
 
         .nav-menu {
@@ -108,10 +87,10 @@
         .nav-menu a {
             color: var(--text-secondary);
             text-decoration: none;
-            padding: 8px 16px;
+            padding: 8px 18px;
             border-radius: 30px;
-            font-size: 15px;
-            font-weight: 500;
+            font-size: 18px;
+            font-weight: 600;
             transition: all var(--transition);
             cursor: pointer;
             border: none;
@@ -120,8 +99,6 @@
         .nav-menu a:hover {
             background: var(--bg-hover);
             color: var(--text-primary);
-            filter: blur(0px) contrast(1.2);
-            opacity: 1;
         }
         .nav-menu a.active {
             background: var(--accent);
@@ -144,7 +121,7 @@
             padding: 6px 14px;
             border-radius: 30px;
             font-weight: 600;
-            font-size: 13px;
+            font-size: 15px;
             cursor: pointer;
             transition: all var(--transition);
             font-family: var(--font);
@@ -157,6 +134,7 @@
             color: var(--text-primary);
         }
 
+        /* ---------- ОСНОВНОЙ КОНТЕНТ ---------- */
         .main {
             flex: 1;
             padding: 30px 40px 20px;
@@ -176,21 +154,18 @@
         }
 
         .page h1 {
-            font-size: 30px;
+            font-size: 36px;
             font-weight: 700;
             margin-bottom: 6px;
-            letter-spacing: 0.08em;
+            letter-spacing: 0.06em;
         }
         .page .subtitle {
             color: var(--text-secondary);
-            font-size: 16px;
+            font-size: 20px;
             margin-bottom: 28px;
             border-left: 3px solid var(--accent);
             padding-left: 16px;
-            font-family: var(--font);
-            filter: none; /* подзаголовок – чёткий */
-            opacity: 1;
-            text-shadow: none;
+            font-weight: 400;
         }
 
         .card {
@@ -203,7 +178,7 @@
             transition: background var(--transition), border var(--transition);
         }
         .card h2 {
-            font-size: 20px;
+            font-size: 24px;
             font-weight: 600;
             margin-bottom: 12px;
             display: flex;
@@ -212,10 +187,7 @@
         }
         .card p, .card li {
             color: var(--text-secondary);
-            font-family: var(--font);
-            filter: none;
-            opacity: 1;
-            text-shadow: none;
+            font-size: 18px;
         }
 
         .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
@@ -241,22 +213,19 @@
             box-shadow: 0 6px 24px var(--accent-glow);
         }
         .entity-card .name {
-            font-weight: 600;
-            font-size: 17px;
+            font-weight: 700;
+            font-size: 22px;
             display: flex;
             align-items: center;
             gap: 8px;
         }
         .entity-card .desc {
             color: var(--text-muted);
-            font-size: 14px;
+            font-size: 18px;
             margin-top: 4px;
-            font-family: var(--font);
-            filter: none;
-            opacity: 1;
-            text-shadow: none;
         }
 
+        /* ---------- ТЕСТ ---------- */
         .quiz-question {
             margin-bottom: 20px;
             padding-bottom: 16px;
@@ -264,72 +233,62 @@
         }
         .quiz-question .q {
             font-weight: 600;
+            font-size: 20px;
             margin-bottom: 8px;
         }
         .quiz-options label {
             display: flex;
             align-items: center;
             gap: 10px;
-            padding: 6px 14px;
+            padding: 8px 16px;
             background: var(--bg-secondary);
             border-radius: 8px;
             cursor: pointer;
             transition: all var(--transition);
-            margin-bottom: 4px;
+            margin-bottom: 6px;
             border: 1px solid transparent;
-            font-family: var(--font);
-            filter: none;
-            opacity: 1;
-            text-shadow: none;
+            font-size: 18px;
         }
         .quiz-options label:hover { border-color: var(--accent); }
-        .quiz-options input[type="radio"] { accent-color: var(--accent); width: 16px; height: 16px; }
+        .quiz-options input[type="radio"] { accent-color: var(--accent); width: 18px; height: 18px; }
         .quiz-options label.correct { border-color: #4caf50; background: rgba(76, 175, 80, 0.12); }
         .quiz-options label.wrong { border-color: #f44336; background: rgba(244, 67, 54, 0.12); }
         .quiz-result {
             margin-top: 16px;
             font-weight: 600;
-            font-size: 18px;
-            font-family: var(--font);
+            font-size: 22px;
         }
         .btn {
             display: inline-block;
-            padding: 10px 28px;
+            padding: 12px 32px;
             background: var(--accent);
             color: #0b0b12;
             border: none;
             border-radius: 30px;
-            font-weight: 600;
-            font-size: 15px;
+            font-weight: 700;
+            font-size: 20px;
             cursor: pointer;
             transition: all var(--transition);
             box-shadow: 0 4px 16px var(--accent-glow);
-            font-family: var(--font);
         }
         .btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 8px 28px var(--accent-glow);
-            filter: blur(0px) contrast(1.2);
-            opacity: 1;
         }
 
+        /* ---------- ПОДВАЛ ---------- */
         .footer {
             background: var(--bg-secondary);
             border-top: 1px solid var(--border-color);
             padding: 18px 24px;
             text-align: center;
-            font-size: 14px;
+            font-size: 18px;
             color: var(--text-muted);
             margin-top: 30px;
-            font-family: var(--font);
         }
         .footer a {
             color: var(--accent);
             text-decoration: none;
-            font-family: var(--font);
-            filter: none;
-            opacity: 1;
-            text-shadow: none;
         }
         .footer a:hover { text-decoration: underline; }
 
@@ -455,13 +414,199 @@
         (function() {
             'use strict';
 
-            const translations = { /* ... полный объект как в предыдущей версии ... */ 
-                // (для краткости я не повторяю его здесь, но вы вставьте свой полный объект)
-                // Если лень — скопируйте из моего предыдущего ответа.
+            // ---------- ЛОКАЛИЗАЦИЯ (полный объект, как в предыдущих версиях) ----------
+            // Для краткости я привожу только структуру, но вы можете скопировать полный объект
+            // из моего предыдущего ответа. Вот он:
+            const translations = {
+                ru: {
+                    siteTitle: 'Странный высокий дом в тумане',
+                    nav: {
+                        home: 'Главная',
+                        works: 'Произведения',
+                        characters: 'Персонажи',
+                        creatures: 'Существа',
+                        locations: 'Местность',
+                        quiz: 'Тест'
+                    },
+                    home: {
+                        title: 'О проекте',
+                        subtitle: 'Добро пожаловать в туманный мир',
+                        aboutTitle: '🏚️ Странный высокий дом',
+                        aboutText: 'Этот сайт посвящён мистическому дому, стоящему на утёсе среди вечных туманов. Здесь вы найдёте описания произведений, персонажей, существ и мест, связанных с этой странной обителью.',
+                        aboutExtra: 'Проект вдохновлён атмосферой лавкрафтовских рассказов и является открытой площадкой для творчества.'
+                    },
+                    works: {
+                        title: '📚 Произведения',
+                        subtitle: 'Рассказы и повести, связанные с Домом',
+                        work1: 'Рассказ о том, как путник находит Дом и встречает его обитателей.',
+                        work2: 'История о тайных комнатах и древних знаниях, скрытых в стенах.',
+                        work3: 'Морская легенда, связывающая Дом с подводными силами.',
+                        work4: 'Дневник последнего хранителя Дома, полный загадок.'
+                    },
+                    characters: {
+                        title: '👥 Персонажи',
+                        subtitle: 'Обитатели и гости странного дома',
+                        elian: 'Хранитель знаний, бессмертный странник.',
+                        lira: 'Воин, защитница границ тумана.',
+                        mira: 'Танцовщица, шпионка, хозяйка иллюзий.',
+                        orlan: 'Маг-артефактор, хранитель тайных реликвий.',
+                        isolde: 'Королева, дипломат, повелительница ветров.'
+                    },
+                    creatures: {
+                        title: '🐉 Существа',
+                        subtitle: 'Мифические обитатели туманных земель',
+                        serpent: 'Огромный змей, скрывающийся в тумане; охраняет вход в Дом.',
+                        shadow: 'Ночное существо, которое питается страхами путников.',
+                        fireflies: 'Рой светящихся духов, указывающих путь в тумане.',
+                        wolf: 'Призрачный волк, сопровождающий Хранителя.'
+                    },
+                    locations: {
+                        title: '🗺️ Местность',
+                        subtitle: 'География мира странного дома',
+                        cliff: 'Высокая скала, на которой стоит Дом. Вечный туман окутывает её подножие.',
+                        forest: 'Дремучий лес, полный иллюзий, где обитают Светлячковые Рои.',
+                        sea: 'Бурное море, в котором, по легендам, спит древнее чудовище.',
+                        village: 'Руины поселения, где жили слуги Дома много веков назад.'
+                    },
+                    quiz: {
+                        title: '🧠 Тест на знание',
+                        subtitle: 'Проверь, насколько хорошо ты изучил этот мир',
+                        checkBtn: 'Проверить ответы',
+                        question1: 'Как называется высокий дом на утёсе?',
+                        question2: 'Кто является Хранителем знаний?',
+                        question3: 'Какое существо охраняет вход в Дом?',
+                        question4: 'Где находится Теневой Лес?',
+                        question5: 'Кто написал «Хроники Хранителя»?',
+                        option1_1: 'Странный дом',
+                        option1_2: 'Дом в тумане',
+                        option1_3: 'Высокий дом',
+                        option1_4: 'Дом на скале',
+                        option2_1: 'Элиан Ветроход',
+                        option2_2: 'Орлан Тёмный',
+                        option2_3: 'Лира Железная',
+                        option2_4: 'Изольда Златогривая',
+                        option3_1: 'Туманный Змей',
+                        option3_2: 'Крылатая Тень',
+                        option3_3: 'Безликий Волк',
+                        option3_4: 'Светлячковый Рой',
+                        option4_1: 'На западе от Дома',
+                        option4_2: 'На востоке от Дома',
+                        option4_3: 'К югу от Утёса',
+                        option4_4: 'В центре мира',
+                        option5_1: 'Элиан Ветроход',
+                        option5_2: 'Неизвестный автор',
+                        option5_3: 'Изольда Златогривая',
+                        option5_4: 'Орлан Тёмный',
+                        correctAnswers: [0, 0, 0, 0, 0],
+                        resultMessages: {
+                            high: '🏆 Ты — истинный Хранитель тумана!',
+                            mid: '🌟 Хороший результат! Ты глубоко погрузился в мир.',
+                            low: '📖 Неплохо, но стоит перечитать разделы.',
+                            fail: '📚 Похоже, туман скрыл от тебя много тайн. Загляни в карту и описания.'
+                        }
+                    },
+                    footer: {
+                        text: '© 2026 The Strange High House in the Mist · Все права защищены.',
+                        homeLink: 'Главная'
+                    }
+                },
+                en: {
+                    siteTitle: 'The Strange High House in the Mist',
+                    nav: {
+                        home: 'Home',
+                        works: 'Works',
+                        characters: 'Characters',
+                        creatures: 'Creatures',
+                        locations: 'Locations',
+                        quiz: 'Quiz'
+                    },
+                    home: {
+                        title: 'About the Project',
+                        subtitle: 'Welcome to the misty world',
+                        aboutTitle: '🏚️ The Strange High House',
+                        aboutText: 'This site is dedicated to the mysterious house perched on a cliff amid eternal mists. Here you will find descriptions of works, characters, creatures, and places connected to this strange abode.',
+                        aboutExtra: 'The project is inspired by the atmosphere of Lovecraftian tales and is an open platform for creativity.'
+                    },
+                    works: {
+                        title: '📚 Works',
+                        subtitle: 'Stories and tales related to the House',
+                        work1: 'A story of a traveler who finds the House and meets its inhabitants.',
+                        work2: 'A tale of secret rooms and ancient knowledge hidden within the walls.',
+                        work3: 'A sea legend linking the House with underwater forces.',
+                        work4: 'The diary of the last Keeper of the House, full of mysteries.'
+                    },
+                    characters: {
+                        title: '👥 Characters',
+                        subtitle: 'Inhabitants and guests of the strange house',
+                        elian: 'Keeper of knowledge, immortal wanderer.',
+                        lira: 'Warrior, defender of the mist borders.',
+                        mira: 'Dancer, spy, mistress of illusions.',
+                        orlan: 'Artificer mage, keeper of secret relics.',
+                        isolde: 'Queen, diplomat, mistress of the winds.'
+                    },
+                    creatures: {
+                        title: '🐉 Creatures',
+                        subtitle: 'Mythical dwellers of the misty lands',
+                        serpent: 'A huge serpent hidden in the mist; guards the entrance to the House.',
+                        shadow: 'A nocturnal creature that feeds on the fears of travelers.',
+                        fireflies: 'A swarm of glowing spirits that show the way in the mist.',
+                        wolf: 'A phantom wolf that accompanies the Keeper.'
+                    },
+                    locations: {
+                        title: '🗺️ Locations',
+                        subtitle: 'Geography of the world of the strange house',
+                        cliff: 'A high cliff where the House stands. Eternal mist envelops its foot.',
+                        forest: 'A dense forest full of illusions, home to the Firefly Swarms.',
+                        sea: 'A stormy sea in which, according to legend, an ancient monster sleeps.',
+                        village: 'Ruins of a settlement where the servants of the House lived centuries ago.'
+                    },
+                    quiz: {
+                        title: '🧠 Quiz',
+                        subtitle: 'Test how well you know this world',
+                        checkBtn: 'Check answers',
+                        question1: 'What is the name of the high house on the cliff?',
+                        question2: 'Who is the Keeper of knowledge?',
+                        question3: 'Which creature guards the entrance to the House?',
+                        question4: 'Where is the Shadow Forest located?',
+                        question5: 'Who wrote the "Chronicles of the Keeper"?',
+                        option1_1: 'Strange House',
+                        option1_2: 'House in the Mist',
+                        option1_3: 'High House',
+                        option1_4: 'House on the Cliff',
+                        option2_1: 'Elian Windwalker',
+                        option2_2: 'Orlan the Dark',
+                        option2_3: 'Lira Iron',
+                        option2_4: 'Isolde Goldenmane',
+                        option3_1: 'Mist Serpent',
+                        option3_2: 'Winged Shadow',
+                        option3_3: 'Faceless Wolf',
+                        option3_4: 'Firefly Swarm',
+                        option4_1: 'West of the House',
+                        option4_2: 'East of the House',
+                        option4_3: 'South of the Cliff',
+                        option4_4: 'Center of the world',
+                        option5_1: 'Elian Windwalker',
+                        option5_2: 'Unknown author',
+                        option5_3: 'Isolde Goldenmane',
+                        option5_4: 'Orlan the Dark',
+                        correctAnswers: [0, 0, 0, 0, 0],
+                        resultMessages: {
+                            high: '🏆 You are a true Keeper of the Mist!',
+                            mid: '🌟 Good result! You are deeply immersed in the world.',
+                            low: '📖 Not bad, but you should re-read the sections.',
+                            fail: '📚 It seems the mist has hidden many secrets from you. Check the map and descriptions.'
+                        }
+                    },
+                    footer: {
+                        text: '© 2026 The Strange High House in the Mist · All rights reserved.',
+                        homeLink: 'Home'
+                    }
+                }
             };
 
             let currentLanguage = 'ru';
 
+            // ---------- ГЛОБАЛЬНЫЕ ФУНКЦИИ ----------
             window.setLanguage = function(lang) {
                 if (!translations[lang]) return;
                 currentLanguage = lang;
@@ -532,14 +677,14 @@
                 document.getElementById('quizResult').innerHTML = '';
             }
 
-            // Инициализация
+            // ---------- ИНИЦИАЛИЗАЦИЯ ----------
             try {
                 const saved = localStorage.getItem('preferredLang');
                 if (saved && translations[saved]) currentLanguage = saved;
             } catch (e) {}
             window.setLanguage(currentLanguage);
 
-            // Обработчики
+            // ---------- ОБРАБОТЧИКИ ----------
             document.querySelectorAll('.lang-switch button').forEach(btn => {
                 btn.addEventListener('click', function() {
                     const lang = this.dataset.lang;
@@ -603,7 +748,7 @@
                 resultDiv.style.color = 'var(--text-primary)';
             });
 
-            // Фоновая музыка
+            // ---------- ФОНОВАЯ МУЗЫКА ----------
             const audio = document.getElementById('bg-audio');
             if (audio) {
                 audio.volume = 0.3;
@@ -623,7 +768,7 @@
             }
 
             console.log('🔮 The Strange High House in the Mist загружен. Язык: ' + currentLanguage);
-            console.log('🖨️ Заголовки теперь выглядят как потёртая печать.');
+            console.log('✍️ Используется шрифт Caveat (рукописный, с кириллицей)');
         })();
     </script>
 
